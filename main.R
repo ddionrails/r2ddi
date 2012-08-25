@@ -33,22 +33,28 @@ r2ddi = function(filename="data/test.csv") {
   #
   if (regexpr(filename, pattern="csv$", ignore.case=TRUE) != -1){
     cat("[INFO] Input format: CSV\n")
-    csv_list = to.list(read.csv(filename, stringsAsFactors=FALSE))
-    varlist = csv_to_varlist(csv_list)
+    csv_list = as.list(read.csv(filename, stringsAsFactors=FALSE))
+    varlist = lapply(csv_list, handle_csv)
+    for(i in names(varlist)) addAttributes(varlist[[`i`]], "name"=i)
   } else if (regexpr(filename, pattern="sav$", ignore.case=TRUE) != -1){
     cat("[INFO] Input format: SPSS (*.sav)\n")
+    spss_list = read.spss(filename, to.data.frame=FALSE)
   } else if (regexpr(filename, pattern="dta$", ignore.case=TRUE) != -1){
     cat("[INFO] Input format: Stata (*.dta)\n")
   } else {
     cat("[ERROR] Don't know the file extension\n")
   }
+  doc = newXMLDoc()
+  content = newXMLNode("codebook")
+  doc = addChildren(doc, addChildren(content, varlist))
+  doc
 }
 
 #
 # Function for lapply on CSV data
 #
-handle_csv_var = function(input){
-  if (typeof(input) == "integer") {
+handle_csv = function(input){
+  if (class(input) == "numeric" || class(input) == "integer") {
     var = newXMLNode("var")
     addAttributes(var, "nature" = "interval")
     addChildren(var, newXMLNode("sumStat", attrs=c("type" = "min"), min(input, na.rm=TRUE) ))
@@ -58,9 +64,9 @@ handle_csv_var = function(input){
     addChildren(var, newXMLNode("sumStat", attrs=c("type" = "mean"), mean(input, na.rm=TRUE) ))
     addChildren(var, newXMLNode("sumStat", attrs=c("type" = "sd"), sd(input, na.rm=TRUE) ))
     return(var)
-  } else if (typeof(input) == "character") {
+  } else if (class(input) == "character") {
     var = newXMLNode("var")
-    addAttributes(var, "nature" = "interval")
+    addAttributes(var, "nature" = "nominal/ordinal")
     addChildren(var, newXMLNode("sumStat", attrs=c("type" = "valid"), sum(table(input)) ))
     addChildren(var, newXMLNode("sumStat", attrs=c("type" = "invalid"), length(input) - sum(table(input)) ))
     t = table(input)
@@ -71,6 +77,8 @@ handle_csv_var = function(input){
     }
     return(var)
   } else {
+    var = newXMLNode("var")
+    return(var)
   }
   return(var)
 }
