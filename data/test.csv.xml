@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<codebook>
+  <var nature="interval" name="pnr">
+    <sumStat type="min">12</sumStat>
+    <sumStat type="max">17</sumStat>
+    <sumStat type="valid">5</sumStat>
+    <sumStat type="invalid">0</sumStat>
+    <sumStat type="mean">14.6</sumStat>
+    <sumStat type="sd">2.07364413533277</sumStat>
+  </var>
+  <var nature="interval" name="age">
+    <sumStat type="min">23</sumStat>
+    <sumStat type="max">55</sumStat>
+    <sumStat type="valid">4</sumStat>
+    <sumStat type="invalid">1</sumStat>
+    <sumStat type="mean">44.75</sumStat>
+    <sumStat type="sd">14.7958327466441</sumStat>
+  </var>
+  <var nature="nominal/ordinal" name="gender">
+    <sumStat type="valid">5</sumStat>
+    <sumStat type="invalid">0</sumStat>
+    <catgry>
+      <catValu>female</catValu>
+      <catStat>3</catStat>
+    </catgry>
+    <catgry>
+      <catValu>male</catValu>
+      <catStat>2</catStat>
+    </catgry>
+  </var>
+</codebook>
