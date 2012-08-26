@@ -24,7 +24,7 @@ listToXML <- function(node, sublist){
 #
 # r2ddi is the main function
 #
-r2ddi = function(input_file="data/test.csv", output_file="output/test.xml") {
+r2ddi = function(input_file="data/test.csv", output_file="output/test.xml", mc=FALSE) {
   #
   # Get the file format from the file extension using regexpr
   # *.csv => CSV
@@ -38,8 +38,19 @@ r2ddi = function(input_file="data/test.csv", output_file="output/test.xml") {
     for(i in names(varlist)) addAttributes(varlist[[`i`]], "name"=i)
   } else if (regexpr(input_file, pattern="sav$", ignore.case=TRUE) != -1){
     cat("[INFO] Input format: SPSS (*.sav)\n")
+    cat("[INFO] Load file... ")
     spss_list = read.spss(input_file, to.data.frame=FALSE, use.value.labels=FALSE)
-    varlist = lapply(spss_list, handle_spss)
+    cat("[DONE]\n")
+    if(mc){
+      library("multicore")
+      cat("[INFO] Run mclapply... ")
+      varlist = mclapply(spss_list, handle_spss)
+      cat("[DONE]\n")
+    } else {
+      cat("[INFO] Run lapply... ")
+      varlist = lapply(spss_list, handle_spss)
+      cat("[DONE]\n")
+    }
     for(i in names(varlist)) addAttributes(varlist[[`i`]], "name"=i)
   } else if (regexpr(input_file, pattern="dta$", ignore.case=TRUE) != -1){
     cat("[INFO] Input format: Stata (*.dta)\n")
