@@ -1,4 +1,8 @@
-
+#
+# new.ddi()
+#
+# Return example of DDI-list-structure.
+#
 new.ddi = function() {
   ddi = list(
     docDscr  = list(),
@@ -62,6 +66,11 @@ new.ddi = function() {
   return(ddi)
 }            
 
+#
+# print.ddi(ddi)
+#
+# DDI-object-specific function for printing a DDI-object.
+#
 print.ddi = function(ddi) {
   result =
     lapply(
@@ -71,4 +80,41 @@ print.ddi = function(ddi) {
       } )
   return(result)
 }
+
+#
+# stata2ddi(filename)
+#
+# Returns file-element for given filename.
+#
+stata2ddi = function(filename = "filename") {
+
+  library("foreign")
+
+  # Read Stata file
+  stata_file =
+    read.dta(
+      filename,
+      convert.factors=FALSE,
+      convert.dates=FALSE,
+      missing.type=TRUE )
+
+  # Generate scaleton for file-object.
+  file = list()
+  class(file) = "ddi.file"
+  file$name = filename
+  file$varDscr = list()
+
+  # Internal function: extract_metadata(stata_var)
+  extract_metadata = function(stata_var) {
+    var = list()
+    var$raw = stata_var
+    return(var)
+  }
+
+  file$varDscr = lapply(stata_file, extract_metadata)
+
+  return(file)
+
+}
+
 
