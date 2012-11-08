@@ -1,9 +1,9 @@
 #
-# new.ddi()
+# ddi.example()
 #
 # Return example of DDI-list-structure.
 #
-new.ddi = function() {
+ddi.example = function() {
   ddi = list(
     docDscr  = list(),
     stdyDscr = list(),
@@ -86,7 +86,7 @@ print.ddi = function(ddi) {
 #
 # Returns file-element for given filename.
 #
-stata2ddi = function(filename = "filename") {
+stata2ddi = function(filename) {
 
   library("foreign")
 
