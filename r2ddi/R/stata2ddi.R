@@ -3,32 +3,30 @@
 #
 # Import Stata file into ddi object
 #
-stata2ddi = function(filename) {
+# Arguments:
+# * filename: Path to data file
+# * datasetname: Name of the data set
+# * keep_data: Include the original data in the DDI object
+#
+stata2ddi = function(filename, datasetname, keep_data=TRUE) {
 
   library("foreign")
-
-  # Read Stata file
-  stata_file =
-    read.dta(
-      filename,
-      convert.factors=FALSE,
-      convert.dates=FALSE,
-      missing.type=TRUE )
 
 
   ######################### FUNCTIONS #########################
 
   # Internal function for extracting metadata
   extract_ddiVar = function(var) {
-    ddiVar = list()
-
-    ddiVar$raw_data = var
     
-    if(class(var) == "numeric") {
-      ddiVar$sumStat = stat_numeric(var)
+    if(class(var$data) == "numeric") {
+      var$sumStat = stat_numeric(var$data)
     }
 
-    return(ddiVar)
+    if( keep_data == FALSE ) {
+      var$data = NA
+      var$missings = NA
+    }
+    return(var)
   }
 
   # Calculate sumStat for numeric variables
@@ -44,15 +42,44 @@ stata2ddi = function(filename) {
 
   ######################### START #########################
 
-  ddi = list()
-  ddi$fileDscr = list()
-  ddi$fileDscr$fileName = filename
-  ddi$fileDscr$name = filename
-  ddi$fileDscr$varDscr = lapply(stata_file, extract_ddiVar)
+  # Read Stata file
+  stata_file =
+    read.dta(
+      filename,
+      convert.factors=FALSE,
+      convert.dates=FALSE,
+      missing.type=TRUE )
+
+  dataDscr = list()
+  dataDscr$fileName = filename
+  dataDscr$name = datasetname
+  dataDscr$timeStamp = attr(stata_file, "time.stamp")
+  dataDscr$label = attr(stata_file, "datalabel")
+
+  names(attr(stata_file, "var.labels")) = names(stata_file)
+  names(attr(stata_file, "val.labels")) = names(stata_file)
+  names(attr(stata_file, "formats")) = names(stata_file)
+  names(attr(stata_file, "types")) = names(stata_file)
 
   for( varname in colnames(stata_file) ) {
-    ddi$fileDscr$varDscr[[varname]][["name"]] = varname
+    dataDscr$varDscr[[varname]] = list()
+    dataDscr$varDscr[[varname]][["name"]] = varname
+    dataDscr$varDscr[[varname]][["label"]] =
+      attr(stata_file, "var.labels")[[varname]]
+    dataDscr$varDscr[[varname]][["data"]] = stata_file[[varname]]
+    dataDscr$varDscr[[varname]][["missings"]] =
+      attr(stata_file, "missing")[[varname]]
+    dataDscr$varDscr[[varname]][["formats"]] =
+      attr(stata_file, "formats")[[varname]]
+    dataDscr$varDscr[[varname]][["label.table"]] =
+      attr(stata_file, "label.table")[[varname]]
   }
+
+  dataDscr$varDscr = lapply(dataDscr$varDscr, extract_ddiVar)
+
+  ddi = list()
+  ddi$fileDscr = list()
+  ddi$fileDscr[[dataDscr$name]] = dataDscr
 
 # class(ddi) = "ddi"
   return(ddi)
