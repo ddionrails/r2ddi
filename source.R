@@ -1,0 +1,6 @@
+source("r2ddi/R/csv2ddi.R")
+source("r2ddi/R/ddi2csv.R")
+source("r2ddi/R/ddi.R")
+source("r2ddi/R/ddiVariable.R")
+source("r2ddi/R/spss2ddi.R")
+source("r2ddi/R/stata2ddi.R")
