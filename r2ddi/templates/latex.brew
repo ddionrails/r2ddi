@@ -1,0 +1,10 @@
+\documentclass[oneside]{article}
+
+\usepackage[margin=2cm,nohead]{geometry}
+\usepackage[pdftex]{graphicx}
+
+
+\begin{document}
+
+
+\end{document}

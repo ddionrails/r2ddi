@@ -15,24 +15,45 @@ stata2ddi = function(filename) {
       convert.dates=FALSE,
       missing.type=TRUE )
 
-  stata_file = as.list(stata_file)
+
+  ######################### FUNCTIONS #########################
 
   # Internal function for extracting metadata
   extract_ddiVar = function(var) {
     ddiVar = list()
-    class(ddiVar) = "ddiVar"
 
+    ddiVar$raw_data = var
     
+    if(class(var) == "numeric") {
+      ddiVar$sumStat = stat_numeric(var)
+    }
 
     return(ddiVar)
   }
 
+  # Calculate sumStat for numeric variables
+  stat_numeric = function(var) {
+    summary = summary(var)
+    sumStat = list()
+    for(i in 1:length(summary)) {
+      sumStat[ names(summary)[i] ] = summary[i]
+    }
+    return(sumStat)
+  }
+
+
+  ######################### START #########################
+
   ddi = list()
-  class(ddi) = "ddi"
   ddi$fileDscr = list()
   ddi$fileDscr$fileName = filename
   ddi$fileDscr$name = filename
   ddi$fileDscr$varDscr = lapply(stata_file, extract_ddiVar)
 
+  for( varname in colnames(stata_file) ) {
+    ddi$fileDscr$varDscr[[varname]][["name"]] = varname
+  }
+
+# class(ddi) = "ddi"
   return(ddi)
 }
