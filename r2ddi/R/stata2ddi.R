@@ -12,34 +12,6 @@ stata2ddi = function(filename, datasetname, keep_data=TRUE) {
 
   library("foreign")
 
-
-  ######################### FUNCTIONS #########################
-
-  # Internal function for extracting metadata
-  extract_ddiVar = function(var) {
-    
-    if(class(var$data) == "numeric") {
-      var$sumStat = stat_numeric(var$data)
-    }
-
-    if( keep_data == FALSE ) {
-      var$data = NA
-      var$missings = NA
-    }
-    return(var)
-  }
-
-  # Calculate sumStat for numeric variables
-  stat_numeric = function(var) {
-    summary = summary(var)
-    sumStat = list()
-    for(i in 1:length(summary)) {
-      sumStat[ names(summary)[i] ] = summary[i]
-    }
-    return(sumStat)
-  }
-
-
   ######################### START #########################
 
   # Read Stata file
@@ -71,11 +43,11 @@ stata2ddi = function(filename, datasetname, keep_data=TRUE) {
       attr(stata_file, "missing")[[varname]]
     dataDscr$varDscr[[varname]][["formats"]] =
       attr(stata_file, "formats")[[varname]]
-    dataDscr$varDscr[[varname]][["label.table"]] =
+    dataDscr$varDscr[[varname]][["val_labels"]] =
       attr(stata_file, "label.table")[[varname]]
   }
 
-  dataDscr$varDscr = lapply(dataDscr$varDscr, extract_ddiVar)
+  dataDscr$varDscr = lapply(dataDscr$varDscr, function(x) ddiExtractor.extract_ddiVar(x, keep_data))
 
   ddi = list()
   ddi$fileDscr = list()
