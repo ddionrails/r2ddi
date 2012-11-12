@@ -41,7 +41,7 @@ stata2ddi = function(filename, datasetname, keep_data=TRUE) {
     dataDscr$varDscr[[varname]][["data"]] = stata_file[[varname]]
     dataDscr$varDscr[[varname]][["missings"]] =
       attr(stata_file, "missing")[[varname]]
-    dataDscr$varDscr[[varname]][["formats"]] =
+    dataDscr$varDscr[[varname]][["format"]] =
       attr(stata_file, "formats")[[varname]]
     dataDscr$varDscr[[varname]][["val_labels"]] =
       attr(stata_file, "label.table")[[varname]]

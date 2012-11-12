@@ -1,5 +1,5 @@
 
-ddiExtractor.extract_ddiVar = function(var, keep_data) {
+ddiExtractor.extract_ddiVar = function(var, keep_data, data_format=NA) {
 
   ##### INTERNAL FUNCTIONS #####
 
@@ -10,15 +10,21 @@ ddiExtractor.extract_ddiVar = function(var, keep_data) {
     for(i in 1:length(summary)) {
       sumStat[ names(summary)[i] ] = summary[i]
     }   
+    sumStat$valid = length(var$data[!is.na(var$data)])
+    sumStat$invalid = length(var$data[is.na(var$data)])
     return(sumStat)
   }
 
   stat_labeled_numeric = function(var){
-    return("stat_labeld_numeric")
+    sumStat = list()
+    sumStat$valid = length(var$data[!is.na(var$data)])
+    sumStat$invalid = length(var$data[is.na(var$data)])
   }
 
   stat_character = function(var) {
-    return("stat_character")
+    sumStat = list()
+    sumStat$valid = length(var$data[!is.na(var$data)])
+    sumStat$invalid = length(var$data[is.na(var$data)])
   }
 
   stat_factor = function(var) {
