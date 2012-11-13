@@ -79,7 +79,7 @@ ddi2xml = function(ddi, filename, version="2.5") {
 
     # Add content to xml-document-object,
     # calling the function for DDI 2.5
-    doc = addChildren(doc, xml2(ddi))
+    addChildren(doc, xml2(ddi))
 
     # Write xml-document-object to xml-file
     saveXML(doc, file = filename)

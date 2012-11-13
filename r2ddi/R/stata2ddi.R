@@ -5,10 +5,10 @@
 #
 # Arguments:
 # * filename: Path to data file
-# * datasetname: Name of the data set
+# * label: Name of the data set
 # * keep_data: Include the original data in the DDI object
 #
-stata2ddi = function(filename, datasetname, keep_data=TRUE) {
+stata2ddi = function(filename, label, keep_data=TRUE) {
 
   library("foreign")
 
@@ -24,8 +24,8 @@ stata2ddi = function(filename, datasetname, keep_data=TRUE) {
       missing.type=TRUE )
 
   dataDscr = list()
-  dataDscr$fileName = filename
-  dataDscr$name = datasetname
+  dataDscr$name = filename
+  dataDscr$label = label
   dataDscr$timeStamp = attr(stata_file, "time.stamp")
   dataDscr$label = attr(stata_file, "datalabel")
 
