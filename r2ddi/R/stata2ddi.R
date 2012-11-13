@@ -12,6 +12,7 @@ stata2ddi = function(filename, datasetname, keep_data=TRUE) {
 
   library("foreign")
 
+
   ######################### START #########################
 
   # Read Stata file
