@@ -1,7 +1,7 @@
 
 ### Examples ###
-source("r2ddi/R/ddi.R")
-# source("r2ddi/R/ddiVariable.R")
+# source("r2ddi/examples/ddi.R")
+# source("r2ddi/examples/ddiVariable.R")
 
 ### Helper ###
 source("r2ddi/R/ddiExtractor.R")
@@ -14,11 +14,10 @@ source("r2ddi/R/stata2ddi.R")
 
 ### Exports ###
 source("r2ddi/R/ddi2xml.R")
-source("r2ddi/R/ddi2csv.R")
 source("r2ddi/R/ddi2latex.R")
 
 ### Test variables ###
 dta_file = "r2ddi/data/test.dta"
 dta_label = "testdata"
 dta_name = "testDataset"
-output = "test/test.xml"
+xml_output = "test/test.xml"
