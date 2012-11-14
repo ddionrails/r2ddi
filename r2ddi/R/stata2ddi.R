@@ -1,14 +1,14 @@
 #
-# stata2ddi(filename)
+# stata2ddi(file, data_label, keep_data)
 #
 # Import Stata file into ddi object
 #
 # Arguments:
-# * filename: Path to data file
-# * label: Name of the data set
+# * file: Path to data file
+# * data_label: Name of the data set
 # * keep_data: Include the original data in the DDI object
 #
-stata2ddi = function(filename, label, keep_data=TRUE) {
+stata2ddi = function(file, data_name, data_label, keep_data=TRUE) {
 
   library("foreign")
 
@@ -18,14 +18,16 @@ stata2ddi = function(filename, label, keep_data=TRUE) {
   # Read Stata file
   stata_file =
     read.dta(
-      filename,
+      file,
       convert.factors=FALSE,
       convert.dates=FALSE,
       missing.type=TRUE )
 
   dataDscr = list()
-  dataDscr$name = filename
-  dataDscr$label = label
+  dataDscr$name = data_name
+  dataDscr$label = data_label
+  dataDscr$file_name = file
+  dataDscr$file_format = "Stata"
   dataDscr$timeStamp = attr(stata_file, "time.stamp")
   dataDscr$label = attr(stata_file, "datalabel")
 
@@ -48,7 +50,7 @@ stata2ddi = function(filename, label, keep_data=TRUE) {
       attr(stata_file, "label.table")[[varname]]
   }
 
-  dataDscr$varDscr = lapply(dataDscr$varDscr, function(x) ddiExtractor.extract_ddiVar(x, keep_data))
+  dataDscr$varDscr = lapply(dataDscr$varDscr, function(x) ddiExtractor.extract_ddiVar(x, keep_data, file_format = "Stata"))
 
   ddi = list()
   ddi$fileDscr = list()

@@ -18,6 +18,7 @@ source("r2ddi/R/ddi2csv.R")
 source("r2ddi/R/ddi2latex.R")
 
 ### Test variables ###
-input = "r2ddi/data/test.dta"
-test_dataset = "testdata"
+dta_file = "r2ddi/data/test.dta"
+dta_label = "testdata"
+dta_name = "testDataset"
 output = "test/test.xml"

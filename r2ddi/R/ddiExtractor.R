@@ -1,5 +1,15 @@
-
-ddiExtractor.extract_ddiVar = function(var, keep_data, data_format=NA) {
+#
+# extract_ddiVar(var, keep_data, file_format)
+#
+# Helper function
+#
+# Params:
+# * var: Variable
+# * keep_data=[TRUE|FALSE]: keep original data in ddi-object
+#                           -> increases size
+# * file_format=[NA|Stata|SPSS|CSV|data.frame]: format (default=NA)
+#
+ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
 
   ##### INTERNAL FUNCTIONS #####
 
@@ -19,6 +29,7 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, data_format=NA) {
     sumStat = list()
     sumStat$valid = length(var$data[!is.na(var$data)])
     sumStat$invalid = length(var$data[is.na(var$data)])
+    return(sumStat)
   }
 
   stat_character = function(var) {
@@ -32,7 +43,17 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, data_format=NA) {
   }
 
   catgry_labeled_numeric = function(var) {
-    return("catgry_labeled_numeric")
+    tab = table(var$data)
+    catgry = list()
+    for(i in 1:length(tab)) {
+      cat = list()
+      cat$catVal = names(t[1])
+      cat$labl = names(var$values)[var$values == i]
+      cat$valid = TRUE
+      cat$freq = tab[[i]]
+      catgry[[i]] = cat
+    }
+    return(catgry)
   }
 
   catgry_factor = function(var) {
