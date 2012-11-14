@@ -1,0 +1,23 @@
+\documentclass{article}
+
+\title{Codebook}
+
+
+\begin{document}
+
+\maketitle
+
+<% for(file in ddi$fileDscr) { %>
+\section{File \texttt{<%= file$name %>}}
+
+\begin{itemize}
+  <% for( var in file$varDscr ) { %>
+  \item \texttt{<%= var$name %>}:
+        <%= var$label %>
+  <% } %>
+\end{itemize}
+
+<% } %>
+
+\end{document}
+
