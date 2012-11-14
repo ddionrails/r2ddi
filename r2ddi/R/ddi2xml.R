@@ -57,6 +57,18 @@ ddi2xml = function(ddi, filename, version="2.5") {
               var$sumStat[[stat]] ))
         }
 
+        # Within the variable-loop
+        # -> Loop for category statistics
+        for ( catgry in var$catgry ) {
+          addChildren(
+            xmlVar,
+            newXMLNode(
+              "catgry",
+              newXMLNode("catValu", catgry$value),
+              newXMLNode("labl", catgry$labl),
+              newXMLNode("catStat", attrs=c("type"="freq"), catgry$freq) ))
+        }
+
         # Add variable node to root
         addChildren(content[["dataDscr"]], xmlVar)
       }

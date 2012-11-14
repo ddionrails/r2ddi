@@ -47,8 +47,8 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
     catgry = list()
     for(i in 1:length(tab)) {
       cat = list()
-      cat$catVal = names(t[1])
-      cat$labl = names(var$values)[var$values == i]
+      cat$value = names(tab[1])
+      cat$labl = names(var$val_labels)[var$val_labels == i]
       cat$valid = TRUE
       cat$freq = tab[[i]]
       catgry[[i]] = cat
