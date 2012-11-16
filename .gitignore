@@ -2,3 +2,4 @@ mikrozensus/
 output/*
 tmp/
 test/
+.Rhistory
