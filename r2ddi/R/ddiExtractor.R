@@ -36,6 +36,7 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
     sumStat = list()
     sumStat$valid = length(var$data[!is.na(var$data)])
     sumStat$invalid = length(var$data[is.na(var$data)])
+    return(sumStat)
   }
 
   stat_factor = function(var) {
@@ -60,20 +61,34 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
     return("catgry_factor")
   }
 
+  catgry_character <- function(var) {
+    t = table(var$data)
+    catgry = list()
+    for(i in 1:length(t)) {
+      cat = list()
+      cat$value = names(t)[i]
+      cat$valid = TRUE
+      cat$freq = t[[i]]
+      catgry[[i]] = cat
+    }
+    return(catgry)
+  }
+
   ##### START #####
 
-  if(class(var$data) == "numeric") {
+  if(class(var$data) == "numeric" | class(var$data) == "integer") {
     if(is.null(var$val_labels)){
       var$sumStat = stat_numeric(var)
     } else {
       var$sumStat = stat_labeled_numeric(var)
-      var$catgry = catgry_labeled_numeric(var)
+      var$catgry  = catgry_labeled_numeric(var)
     }
   } else if(class(var$data) == "character") {
     var$sumStat = stat_character(var)
+    var$catgry  = catgry_character(var)
   } else if(class(var$data) == "factor") {
     var$sumStat = stat_factor(var)
-    var$catgry = catgry_factor(var)
+    var$catgry  = catgry_factor(var)
   }
 
   if( keep_data == FALSE ) { 
