@@ -9,7 +9,6 @@ Maintainer: Marcel Hebing <mhebing@diw.de>
 Depends:
     R,
     foreign,
-    XML,
     digest,
     brew,
     tools

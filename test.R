@@ -16,7 +16,7 @@ test1 <-
     missing_codes,
     keep_data )
 
-ddi2xml(test1, "test/test1.xml")
+#ddi2xml(test1, "test/test1.xml")
 
 
 #test2 <-

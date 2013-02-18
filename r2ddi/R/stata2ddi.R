@@ -49,7 +49,7 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
                        NA,
                        stata_file[[varname]])
                    },
-    #    missings = r2ddi:::missings.stata(varname, stata_file, missing_codes),
+#        missings = r2ddi:::missings.stata(varname, stata_file, missing_codes),
           format = attr(stata_file, "formats")[[varname]],
       val_labels = attr(stata_file, "label.table")[[varname]]
         )
