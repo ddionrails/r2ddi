@@ -1,0 +1,6 @@
+
+* foreign
+* digest
+* XML
+* devtools
+* roxygen2

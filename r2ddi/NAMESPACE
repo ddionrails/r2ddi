@@ -1,0 +1,3 @@
+S3method(stata2ddi,default)
+S3method(ddi2xml,default)
+S3method(print,ddi)

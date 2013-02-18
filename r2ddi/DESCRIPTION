@@ -1,11 +1,21 @@
 Package: r2ddi
-Version: 1.0-SNAPSHOT
+Version: 0.1.1
 Date: 2012
 Title: Converting various data formats to DDI
-Author: Marcel Hebing and Jan Goebel
+Author:
+    Marcel Hebing <mhebing@diw.de>,
+    Jan Goebel <jgoebel@diw.de>
 Maintainer: Marcel Hebing <mhebing@diw.de>
-Depends: R, foreign, XML
-Description: Import various data formats (like CSV, Stata, SPSS) and export them to DDI (currently Version 2.5) and DDI-related formats.
+Depends:
+    R,
+    foreign,
+    XML,
+    digest,
+    brew,
+    tools
+Description: Import various data formats (like CSV, Stata,
+    SPSS) and export them to DDI (currently Version 2.5)
+    and DDI-related formats.
 License: GPL
 URL: https://github.com/mhebing/r2ddi
 BugReport: https://github.com/mhebing/r2ddi/issues

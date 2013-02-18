@@ -3,3 +3,4 @@ output/*
 tmp/
 test/
 .Rhistory
+r2ddi.Rcheck/
