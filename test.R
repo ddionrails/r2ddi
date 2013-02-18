@@ -1,4 +1,4 @@
-source("source.R", echo=TRUE)
+#source("source.R", echo=TRUE)
 
 test1 <-
   stata2ddi(
@@ -10,11 +10,11 @@ test1 <-
 ddi2xml(test1, "test/test1.xml")
 
 
-test2 <-
-  csv2ddi(
-    "r2ddi/data/test.csv",
-    "csv_data",
-    "CSV Test Data",
-    keep_data=TRUE )
-
-ddi2xml(test2, "test/test2.xml")
+#test2 <-
+#  csv2ddi(
+#    "r2ddi/data/test.csv",
+#    "csv_data",
+#    "CSV Test Data",
+#    keep_data=TRUE )
+#
+#ddi2xml(test2, "test/test2.xml")

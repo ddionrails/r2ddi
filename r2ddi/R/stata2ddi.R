@@ -11,31 +11,6 @@
 stata2ddi <- function(filename, data_name, data_label=NULL,
                            missing_codes=NULL, keep_data=TRUE) {
 
-  #################### LIBRARIES ####################
-
-  require("foreign")
-
-  #################### FUNCTIONS ####################
-
-  get.missings <-
-    function(x, stata_file=stata_file,
-             missing.codes=missing_codes) {
-
-    ## get missings either from attributes or from codes supplied by user
-    mis <- attr(stata_file, "missing")[[varname]]
-
-    if(is.null(missing.codes))   # nothing supplied, exit 
-      return(mis) 
-                                        # we have some (additional?) codes
-    if (is.null(mis))
-      mis <- rep(NA, length(stata_file[[varname]]))
-    mis <- ifelse(!is.na(mis), mis,
-                  ifelse(stata_file[[varname]] %in% missing_codes, stata_file[[varname]], NA))
-    return(mis)
-  }
-
-  #################### START ####################
-
   # Read Stata file
   stata_file <-
     read.dta(
@@ -57,9 +32,9 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
   }
   
   names(attr(stata_file, "var.labels")) <-
-   names(attr(stata_file, "val.labels")) <-
-    names(attr(stata_file, "formats")) <-
-      names(attr(stata_file, "types")) <- names(stata_file)
+    names(attr(stata_file, "val.labels")) <-
+      names(attr(stata_file, "formats")) <-
+        names(attr(stata_file, "types")) <- names(stata_file)
 
   for( varname in colnames(stata_file) ) {
     dataDscr$varDscr[[varname]] <-
@@ -68,9 +43,12 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
             data = if(is.null(missing_codes)) {
                      stata_file[[varname]]
                    } else {
-                     ifelse(stata_file[[varname]] %in% missing_codes, NA, stata_file[[varname]])
+                     ifelse(
+                       stata_file[[varname]] %in% missing_codes,
+                       NA,
+                       stata_file[[varname]])
                    },
-        missings = get.missings(varname, stata_file=stata_file),
+        missings = missings.stata(varname, stata_file=stata_file),
           format = attr(stata_file, "formats")[[varname]],
       val_labels = attr(stata_file, "label.table")[[varname]]
         )
