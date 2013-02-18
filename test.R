@@ -1,11 +1,20 @@
 #source("source.R", echo=TRUE)
 
+library("r2ddi")
+
+filename="r2ddi/data/test.dta"
+data_name="stata_data"
+data_label="Stata Test Data"
+missing_codes=NULL
+keep_data=TRUE
+
 test1 <-
   stata2ddi(
-    "r2ddi/data/test.dta",
-    "stata_data",
-    "Stata Test Data",
-    keep_data=TRUE )
+    filename,
+    data_name,
+    data_label,
+    missing_codes,
+    keep_data )
 
 ddi2xml(test1, "test/test1.xml")
 
