@@ -10,6 +10,7 @@ Depends:
     R,
     foreign,
     digest,
+    XML,
     brew,
     tools
 Description: Import various data formats (like CSV, Stata,
