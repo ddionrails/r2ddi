@@ -37,29 +37,38 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
       names(attr(stata_file, "formats")) <-
         names(attr(stata_file, "types")) <- names(stata_file)
 
-  for( varname in colnames(stata_file) ) {
-    dataDscr$varDscr[[varname]] <-
-      list( name = varname,
-           label = attr(stata_file, "var.labels")[[varname]],
-            data = if(is.null(missing_codes)) {
-                     stata_file[[varname]]
-                   } else {
-                     ifelse(
-                       stata_file[[varname]] %in% missing_codes,
-                       NA,
-                       stata_file[[varname]])
-                   },
+  dataDscr$varDscr <-
+    lapply(
+      seq_along(stata_file),
+      function(i){
+        r2ddi:::varDscr.stata(i, stata_file[[i]], attributes(stata_file))
+      })
+
+  names(dataDscr$varDscr) <- names(stata_file)
+
+#  for( varname in colnames(stata_file) ) {
+#    dataDscr$varDscr[[varname]] <-
+#      list( name = varname,
+#           label = attr(stata_file, "var.labels")[[varname]],
+#            data = if(is.null(missing_codes)) {
+#                     stata_file[[varname]]
+#                   } else {
+#                     ifelse(
+#                       stata_file[[varname]] %in% missing_codes,
+#                       NA,
+#                       stata_file[[varname]])
+#                   },
 #        missings = r2ddi:::missings.stata(varname, stata_file, missing_codes),
-          format = attr(stata_file, "formats")[[varname]],
-      val_labels = attr(stata_file, "label.table")[[varname]]
-        )
-  }
+#          format = attr(stata_file, "formats")[[varname]],
+#      val_labels = attr(stata_file, "label.table")[[varname]]
+#        )
+#  }
 
   dataDscr$varDscr <- lapply(dataDscr$varDscr, r2ddi:::ddiExtractor.extract_ddiVar, keep_data, file_format = "Stata")
 
   ddi <- list( fileDscr=list(dataDscr) )
   names(ddi$fileDscr) <- dataDscr$name
 
-  ## class(ddi) = "ddi"
+  class(ddi) = "ddi"
   return(ddi)
 }
