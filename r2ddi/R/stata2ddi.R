@@ -1,15 +1,15 @@
 #
-# stata2ddi(file, data_label, keep_data)
+# stata2ddi(file, data.label, keep.data)
 #
 # Import Stata file into ddi object
 #
 # Arguments:
 # * file: Path to data file
-# * data_label: Name of the data set
-# * keep_data: Include the original data in the DDI object
+# * data.label: Name of the data set
+# * keep.data: Include the original data in the DDI object
 #
 stata2ddi <- function(filename, data_name, data_label=NULL,
-                           missing_codes=NULL, keep_data=TRUE) {
+                           missing.codes=NULL, keep_data=TRUE) {
 
   # Read Stata file
   stata_file <-
@@ -37,11 +37,19 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
       names(attr(stata_file, "formats")) <-
         names(attr(stata_file, "types")) <- names(stata_file)
 
+  stata.missings <- attr(stata_file, "missing")
+  attr(stata_file, "missing") <- NULL
+
   dataDscr$varDscr <-
     lapply(
       seq_along(stata_file),
       function(i){
-        r2ddi:::varDscr.stata(i, stata_file[[i]], attributes(stata_file))
+        r2ddi:::varDscr.stata(
+          i,
+          stata_file[[i]],
+          stata.missings[[i]],
+          attributes(stata_file),
+          missing.codes)
       })
 
   names(dataDscr$varDscr) <- names(stata_file)
@@ -50,15 +58,15 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
 #    dataDscr$varDscr[[varname]] <-
 #      list( name = varname,
 #           label = attr(stata_file, "var.labels")[[varname]],
-#            data = if(is.null(missing_codes)) {
+#            data = if(is.null(missing.codes)) {
 #                     stata_file[[varname]]
 #                   } else {
 #                     ifelse(
-#                       stata_file[[varname]] %in% missing_codes,
+#                       stata_file[[varname]] %in% missing.codes,
 #                       NA,
 #                       stata_file[[varname]])
 #                   },
-#        missings = r2ddi:::missings.stata(varname, stata_file, missing_codes),
+#        missings = r2ddi:::missings.stata(varname, stata_file, missing.codes),
 #          format = attr(stata_file, "formats")[[varname]],
 #      val_labels = attr(stata_file, "label.table")[[varname]]
 #        )
