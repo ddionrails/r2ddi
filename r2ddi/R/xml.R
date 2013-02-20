@@ -1,12 +1,21 @@
 
 xml <- function(ddi, filename){
 
-  renderFileDscr <- function(file, codebook=codebook) {
-    fileNode <-
+  renderVar <- function(varDscr, codebook) {
+    dataDscrNode <-
+      newXMLNode(
+        "var",
+        parent=codebook["dataDscr"],
+        attrs=c(name=varDscr$name))
+  }
+
+  renderFileDscr <- function(fileDscr, codebook) {
+    fileDscrNode <-
       newXMLNode(
         "fileDscr",
         parent=codebook,
-        attrs=c(name=file$name))
+        attrs=c(name=fileDscr$name))
+    lapply(fileDscr$varDscr, renderVar, codebook)
   }
 
   codebook <- newXMLNode("codebook")
