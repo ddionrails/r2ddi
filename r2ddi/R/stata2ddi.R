@@ -32,13 +32,15 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
   }
   dataDscr$varDscr = list()
   
-  names(attr(stata_file, "var.labels")) <-
+  names(attr(stata_file, "var.labels"))   <-
     names(attr(stata_file, "val.labels")) <-
-      names(attr(stata_file, "formats")) <-
-        names(attr(stata_file, "types")) <- names(stata_file)
+      names(attr(stata_file, "formats"))  <-
+        names(attr(stata_file, "types"))  <- names(stata_file)
 
-  stata.missings <- attr(stata_file, "missing")
-  attr(stata_file, "missing") <- NULL
+  stata.missings <-
+    attr(stata_file, "missing")
+  attr(stata_file, "missing") <-
+    NULL
 
   dataDscr$varDscr <-
     lapply(
@@ -72,7 +74,12 @@ stata2ddi <- function(filename, data_name, data_label=NULL,
 #        )
 #  }
 
-  dataDscr$varDscr <- lapply(dataDscr$varDscr, r2ddi:::ddiExtractor.extract_ddiVar, keep_data, file_format = "Stata")
+  dataDscr$varDscr <-
+    lapply(
+      dataDscr$varDscr,
+      r2ddi:::ddiExtractor.extract_ddiVar,
+      keep_data,
+      file_format = "Stata")
 
   ddi <- list( fileDscr=list(dataDscr) )
   names(ddi$fileDscr) <- dataDscr$name
