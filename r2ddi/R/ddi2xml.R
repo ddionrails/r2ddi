@@ -1,31 +1,20 @@
 # New XML function
 
-ddi2xml <- function(ddi, filename){
+ddi2xml <- function(ddi, filename)
+{
 
-  renderSumStat <- function(i, sumStats, dataDscrNode) {
-    sumStatNode <-
+  renderFileDscr <- function(fileDscr, codebook)
+  {
+    fileDscrNode <-
       newXMLNode(
-        "sumStat",
-        sumStats[[i]],
-        parent=dataDscrNode,
-        attrs=c(type=names(sumStats)[i]))
+        "fileDscr",
+        parent=codebook,
+        attrs=c(name=fileDscr$name))
+    lapply(fileDscr$varDscr, renderVar, fileDscr$name, codebook)
   }
 
-  renderCatgry <- function(catgry, dataDscrNode) {
-    catgryNode <-
-      newXMLNode(
-        "catgry",
-        parent=dataDscrNode)
-    if(catgry$valid == TRUE)
-      addAttributes(catgryNode, missing=FALSE)
-    if(catgry$valid == FALSE)
-      addAttributes(catgryNode, missing=TRUE)
-    newXMLNode("catValu", catgry$value, parent=catgryNode)
-    newXMLNode("labl",    catgry$label, parent=catgryNode)
-    newXMLNode("catStat", catgry$freq,  parent=catgryNode, attrs=c(type="freq"))
-  }
-
-  renderVar <- function(varDscr, filename, codebook) {
+  renderVar <- function(varDscr, filename, codebook)
+  {
     dataDscrNode <-
       newXMLNode(
         "var",
@@ -37,13 +26,29 @@ ddi2xml <- function(ddi, filename){
     lapply(varDscr$catgry,  renderCatgry,  dataDscrNode)
   }
 
-  renderFileDscr <- function(fileDscr, codebook) {
-    fileDscrNode <-
+  renderSumStat <- function(i, sumStats, dataDscrNode)
+  {
+    sumStatNode <-
       newXMLNode(
-        "fileDscr",
-        parent=codebook,
-        attrs=c(name=fileDscr$name))
-    lapply(fileDscr$varDscr, renderVar, fileDscr$name, codebook)
+        "sumStat",
+        sumStats[[i]],
+        parent=dataDscrNode,
+        attrs=c(type=names(sumStats)[i]))
+  }
+
+  renderCatgry <- function(catgry, dataDscrNode)
+  {
+    catgryNode <-
+      newXMLNode(
+        "catgry",
+        parent=dataDscrNode)
+    if(catgry$valid == TRUE)
+      addAttributes(catgryNode, missing=FALSE)
+    if(catgry$valid == FALSE)
+      addAttributes(catgryNode, missing=TRUE)
+    newXMLNode("catValu", catgry$value, parent=catgryNode)
+    newXMLNode("labl",    catgry$label, parent=catgryNode)
+    newXMLNode("catStat", catgry$freq,  parent=catgryNode, attrs=c(type="freq"))
   }
 
   ##### START #####

@@ -8,8 +8,14 @@
 # * data.label: Name of the data set
 # * keep.data: Include the original data in the DDI object
 #
-stata2ddi <- function(filename, data_name, data_label=NULL,
-                           missing.codes=NULL, keep_data=TRUE) {
+stata2ddi <-
+  function(
+    filename,
+    data_name,
+    data_label=NULL,
+    missing.codes=NULL,
+    keep_data=TRUE)
+{
 
   # Read Stata file
   stata_file <-

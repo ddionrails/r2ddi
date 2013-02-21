@@ -1,5 +1,13 @@
+#
 
-varDscr.stata <- function(i, var, missings, attr, missing.codes=NULL) {
+varDscr.stata <- 
+  function(
+    i,
+    var,
+    missings,
+    attr,
+    missing.codes=NULL)
+{
 
   varDscr <- list(
     name   = attr$names[[i]],
