@@ -8,8 +8,8 @@ ddi2xml <- function(ddi, filename)
     fileDscrNode <-
       newXMLNode(
         "fileDscr",
-        parent=codebook,
-        attrs=c(name=fileDscr$name))
+        parent = codebook,
+        attrs  = c(name = fileDscr$name))
     lapply(fileDscr$varDscr, renderVar, fileDscr$name, codebook)
   }
 
@@ -18,10 +18,11 @@ ddi2xml <- function(ddi, filename)
     dataDscrNode <-
       newXMLNode(
         "var",
-        parent=codebook["dataDscr"],
-        attrs=c(
-          name=varDscr$name,
-          files=filename))
+        parent = codebook["dataDscr"],
+        attrs  = c(
+          name    = varDscr$name,
+          intrvl  = varDscr$intrvl,
+          files   = filename))
     lapply(seq_along(varDscr$sumStat), renderSumStat, varDscr$sumStat, dataDscrNode)
     lapply(varDscr$catgry,  renderCatgry,  dataDscrNode)
   }
@@ -32,8 +33,8 @@ ddi2xml <- function(ddi, filename)
       newXMLNode(
         "sumStat",
         sumStats[[i]],
-        parent=dataDscrNode,
-        attrs=c(type=names(sumStats)[i]))
+        parent = dataDscrNode,
+        attrs  = c(type = names(sumStats)[i]))
   }
 
   renderCatgry <- function(catgry, dataDscrNode)
@@ -42,21 +43,21 @@ ddi2xml <- function(ddi, filename)
       newXMLNode(
         "catgry",
         parent=dataDscrNode)
-    if(catgry$valid == TRUE)
+    if (catgry$valid == TRUE)
       addAttributes(catgryNode, missing=FALSE)
-    if(catgry$valid == FALSE)
+    if (catgry$valid == FALSE)
       addAttributes(catgryNode, missing=TRUE)
-    newXMLNode("catValu", catgry$value, parent=catgryNode)
-    newXMLNode("labl",    catgry$label, parent=catgryNode)
-    newXMLNode("catStat", catgry$freq,  parent=catgryNode, attrs=c(type="freq"))
+    newXMLNode("catValu", catgry$value, parent = catgryNode)
+    newXMLNode("labl",    catgry$label, parent = catgryNode)
+    newXMLNode("catStat", catgry$freq,  parent = catgryNode, attrs = c(type = "freq"))
   }
 
   ##### START #####
 
   codebook <- newXMLNode("codebook")
-  dataDscr <- newXMLNode("dataDscr", parent=codebook)
+  dataDscr <- newXMLNode("dataDscr", parent = codebook)
 
   lapply(ddi$fileDscr, renderFileDscr, codebook)
 
-  saveXML(codebook, file=filename)
+  saveXML(codebook, file = filename)
 }

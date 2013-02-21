@@ -12,32 +12,38 @@ stata2ddi <-
   function(
     filename,
     data_name,
-    data_label=NULL,
-    missing.codes=NULL,
-    keep_data=TRUE)
+    data_label    = NULL,
+    missing.codes = NULL,
+    keep_data     = TRUE)
 {
 
   # Read Stata file
   stata_file <-
     read.dta(
       filename,
-      convert.factors=FALSE,
-      convert.dates=FALSE,
-      missing.type=TRUE )
+      convert.factors = FALSE,
+      convert.dates   = FALSE,
+      missing.type    = TRUE )
 
-  dataDscr <- list()
-  dataDscr$name <- data_name
-  dataDscr$file_name <- filename
-  dataDscr$file_format <- "Stata"
-  dataDscr$timeStamp <- attr(stata_file, "time.stamp")
-  ## data.label provided by user overrides data label in the dataset
-  if(is.null(data_label)) {
+  dataDscr <-
+    list(
+      name        = data_name,
+      file_name   = filename,
+      file_format = "Stata",
+      timeStamp   = attr(stata_file, "time.stamp"))
+
+  if(is.null(data_label))
+  {
     dataDscr$label <- attr(stata_file, "datalabel")
-  } else {
+  }
+  else
+  {
     dataDscr$label <- data_label
   }
+
   dataDscr$varDscr = list()
-  
+
+  # TODO(mhebing): still neccessary after use of lapply?  
   names(attr(stata_file, "var.labels"))   <-
     names(attr(stata_file, "val.labels")) <-
       names(attr(stata_file, "formats"))  <-
@@ -51,35 +57,19 @@ stata2ddi <-
   dataDscr$varDscr <-
     lapply(
       seq_along(stata_file),
-      function(i){
+      function(i)
+      {
         r2ddi:::varDscr.stata(
-          i,
-          stata_file[[i]],
-          stata.missings[[i]],
-          attributes(stata_file),
-          missing.codes)
+          i             = i,
+          var           = stata_file[[i]],
+          missings      = stata.missings[[i]],
+          attr          = attributes(stata_file),
+          missing.codes = missing.codes)
       })
 
   names(dataDscr$varDscr) <- names(stata_file)
 
-#  for( varname in colnames(stata_file) ) {
-#    dataDscr$varDscr[[varname]] <-
-#      list( name = varname,
-#           label = attr(stata_file, "var.labels")[[varname]],
-#            data = if(is.null(missing.codes)) {
-#                     stata_file[[varname]]
-#                   } else {
-#                     ifelse(
-#                       stata_file[[varname]] %in% missing.codes,
-#                       NA,
-#                       stata_file[[varname]])
-#                   },
-#        missings = r2ddi:::missings.stata(varname, stata_file, missing.codes),
-#          format = attr(stata_file, "formats")[[varname]],
-#      val_labels = attr(stata_file, "label.table")[[varname]]
-#        )
-#  }
-
+  # TODO(mhebing): move call of ddiExtractor() to varDscr.stata()?!
   dataDscr$varDscr <-
     lapply(
       dataDscr$varDscr,
