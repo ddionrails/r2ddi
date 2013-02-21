@@ -1,5 +1,7 @@
+#
 
-missings.stata <- function(data, missings, missing.codes=NULL) {
+missings.stata <- function(data, missings, missing.codes=NULL)
+{
 
   if(length(data) != length(missings))
     missings <- rep(NA, length(data))
