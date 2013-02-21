@@ -9,15 +9,21 @@
 #                           -> increases size
 # * file_format=[NA|Stata|SPSS|CSV|data.frame]: format (default=NA)
 #
-ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
+ddiExtractor.extract_ddiVar <-
+  function(
+    var,
+    keep_data,
+    file_format=NA)
+{
 
   ##### INTERNAL FUNCTIONS #####
 
-  # Calculate sumStat for numeric variables
-  stat_numeric = function(var) {
+  stat_numeric = function(var)
+  {
     summary = summary(var$data)
     sumStat = list()
-    for(i in 1:length(summary)) {
+    for(i in 1:length(summary))
+    {
       sumStat[ names(summary)[i] ] = summary[i]
     }   
     sumStat$valid = length(var$data[!is.na(var$data)])
@@ -25,28 +31,33 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
     return(sumStat)
   }
 
-  stat_labeled_numeric = function(var){
+  stat_labeled_numeric = function(var)
+  {
     sumStat = list()
     sumStat$valid = length(var$data[!is.na(var$data)])
     sumStat$invalid = length(var$data[is.na(var$data)])
     return(sumStat)
   }
 
-  stat_character = function(var) {
+  stat_character = function(var)
+  {
     sumStat = list()
     sumStat$valid = length(var$data[!is.na(var$data)])
     sumStat$invalid = length(var$data[is.na(var$data)])
     return(sumStat)
   }
 
-  stat_factor = function(var) {
+  stat_factor = function(var)
+  {
     return("stat_factor")
   }
 
-  catgry_labeled_numeric = function(var) {
+  catgry_labeled_numeric = function(var)
+  {
     tab = table(var$data)
     catgry = list()
-    for(i in 1:length(tab)) {
+    for(i in 1:length(tab))
+    {
       cat = list()
       cat$value = names(tab[1])
       cat$labl = names(var$val_labels)[var$val_labels == i]
@@ -57,14 +68,17 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
     return(catgry)
   }
 
-  catgry_factor = function(var) {
+  catgry_factor = function(var)
+  {
     return("catgry_factor")
   }
 
-  catgry_character <- function(var) {
+  catgry_character <- function(var)
+  {
     t = table(var$data)
     catgry = list()
-    for(i in 1:length(t)) {
+    for(i in 1:length(t))
+    {
       cat = list()
       cat$value = names(t)[i]
       cat$valid = TRUE
@@ -76,25 +90,29 @@ ddiExtractor.extract_ddiVar = function(var, keep_data, file_format=NA) {
 
   ##### START #####
 
-  if(class(var$data) == "numeric" | class(var$data) == "integer") {
-    if(is.null(var$val_labels)){
+  if (class(var$data) == "numeric" | class(var$data) == "integer")
+  {
+    if (is.null(var$val_labels))
+    {
       var$sumStat = stat_numeric(var)
     } else {
       var$sumStat = stat_labeled_numeric(var)
       var$catgry  = catgry_labeled_numeric(var)
     }
-  } else if(class(var$data) == "character") {
+  } else if (class(var$data) == "character") {
     var$sumStat = stat_character(var)
     var$catgry  = catgry_character(var)
-  } else if(class(var$data) == "factor") {
+  } else if (class(var$data) == "factor") {
     var$sumStat = stat_factor(var)
     var$catgry  = catgry_factor(var)
   }
 
-  if( keep_data == FALSE ) { 
+  if (keep_data == FALSE)
+  { 
     var$data = NA
     var$missings = NA
-  }   
+  }
+   
   return(var)
 }
 

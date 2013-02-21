@@ -13,7 +13,8 @@ varDscr.stata <-
     name   = attr$names[[i]],
     label  = attr$var.labels[[i]],
     data   =
-      if(is.null(missing.codes)){
+      if(is.null(missing.codes))
+      {
         var
       } else {
         ifelse(var %in% missing.codes, NA, var)
