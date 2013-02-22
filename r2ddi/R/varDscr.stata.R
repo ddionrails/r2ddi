@@ -12,6 +12,7 @@ varDscr.stata <-
   varDscr <- list(
     name   = attr$names[[i]],
     label  = attr$var.labels[[i]],
+    val.labels   = attr(var, "val.labels"),
     data   =
       if(is.null(missing.codes))
       {
@@ -21,6 +22,8 @@ varDscr.stata <-
       },
     miss   = r2ddi:::missings.stata(var, missings, missing.codes),
     format = attr$formats[[i]])
+
+  attributes(varDscr$data) = NULL
 
   return(varDscr)
 }

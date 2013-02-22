@@ -35,9 +35,7 @@ stata2ddi <-
   if(is.null(data_label))
   {
     dataDscr$label <- attr(stata_file, "datalabel")
-  }
-  else
-  {
+  }else{
     dataDscr$label <- data_label
   }
 
@@ -53,6 +51,14 @@ stata2ddi <-
     attr(stata_file, "missing")
   attr(stata_file, "missing") <-
     NULL
+
+  #Value labels
+  for(name in names(attr(stata_file, "label.table")))
+  {
+    val.labels = names(attr(stata_file, "label.table")[[name]])
+    names(val.labels) = attr(stata_file, "label.table")[[name]]
+    attr(stata_file[[name]], "val.labels") = val.labels
+  }
 
   dataDscr$varDscr <-
     lapply(

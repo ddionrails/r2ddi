@@ -57,14 +57,12 @@ ddiExtractor.extract_ddiVar <-
     tab <- table(var$data)
     catgry <- list()
     for(i in 1:length(tab))
-    {
-      cat <- list()
-      cat$value <- names(tab[1])
-      cat$labl <- names(var$val_labels)[var$val_labels == i]
-      cat$valid <- TRUE
-      cat$freq <- tab[[i]]
-      catgry[[i]] <- cat
-    }
+      catgry[[i]] <-
+        list(
+          value   = names(tab[i]),
+          labl    = var$val.labels[[i]],
+          valid   = TRUE,
+          freq    = tab[[i]])
     return(catgry)
   }
 
@@ -92,14 +90,15 @@ ddiExtractor.extract_ddiVar <-
 
   if (class(var$data) == "numeric" | class(var$data) == "integer")
   {
-    if (is.null(var$val_labels))
+    if (is.null(var$val.labels))
     {
       var$sumStat <- stat_numeric(var)
+      var$intrvl  <- "numeric"
     } else {
       var$sumStat <- stat_labeled_numeric(var)
       var$catgry  <- catgry_labeled_numeric(var)
+      var$intrvl  <- "labeled numeric"
     }
-    var$intrvl <- "numeric"
   } else if (class(var$data) == "character") {
     var$sumStat <- stat_character(var)
     var$catgry  <- catgry_character(var)
