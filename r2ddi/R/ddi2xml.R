@@ -15,7 +15,7 @@ ddi2xml <- function(ddi, filename)
 
   renderVar <- function(varDscr, filename, codebook)
   {
-    dataDscrNode <-
+    varNode <-
       newXMLNode(
         "var",
         parent = codebook["dataDscr"],
@@ -23,26 +23,27 @@ ddi2xml <- function(ddi, filename)
           ID      = varDscr$name,
           intrvl  = varDscr$intrvl,
           files   = filename))
-    lapply(seq_along(varDscr$sumStat), renderSumStat, varDscr$sumStat, dataDscrNode)
-    lapply(varDscr$catgry,  renderCatgry,  dataDscrNode)
+      newXMLNode("labl", varDscr$label, parent=varNode)
+    lapply(seq_along(varDscr$sumStat), renderSumStat, varDscr$sumStat, varNode)
+    lapply(varDscr$catgry,  renderCatgry,  varNode)
   }
 
-  renderSumStat <- function(i, sumStats, dataDscrNode)
+  renderSumStat <- function(i, sumStats, varNode)
   {
     sumStatNode <-
       newXMLNode(
         "sumStat",
         sumStats[[i]],
-        parent = dataDscrNode,
+        parent = varNode,
         attrs  = c(type = names(sumStats)[i]))
   }
 
-  renderCatgry <- function(catgry, dataDscrNode)
+  renderCatgry <- function(catgry, varNode)
   {
     catgryNode <-
       newXMLNode(
         "catgry",
-        parent=dataDscrNode)
+        parent=varNode)
     if (catgry$valid == TRUE)
       addAttributes(catgryNode, missing=FALSE)
     if (catgry$valid == FALSE)
