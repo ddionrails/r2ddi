@@ -54,6 +54,14 @@ ddiExtractor.extract_ddiVar <-
 
   catgry_labeled_numeric <- function(var)
   {
+    ## Wird hier ein factor uebergeben oder eine numerische
+    ## Variable?? Nach der einlese logik muesste es eine
+    ## numerische Variable sein. Meiner Meinung muesste wir
+    ## hier nach dem missmatch suchen
+    ## Im Prinzip hat man alle Information um ein
+    ## table(factor(var$data, levels=, labels=)
+    ## zu machen.
+    ## Allerdings muss auch die For Schleife dann umgeschrieben werden
     tab <- table(var$data)
     catgry <- list()
     for(i in 1:length(tab))
