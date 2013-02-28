@@ -64,6 +64,26 @@ ddiExtractor.extract_ddiVar <-
     ## Allerdings muss auch die For Schleife dann umgeschrieben werden
     tab <- table(var$data)
     catgry <- list()
+
+    var$freq.valid <- table(var$data)
+##     names(var$freq.valid) <- ifelse(names(var$freq.valid) %in% names(var$val.labels),
+##                                     var$val.labels, "XXX")
+##     var$freq.valid <- table(factor(var$data,
+##                                 levels=as.numeric(names(var$val.labels)),
+##                                 labels=var$val.labels))
+##     var$freq.mis <- table(ifelse(is.na(var$miss), NA,
+##                               paste(".", letters[var$miss], sep="")))
+##     names(var$freq.mis) <- gsub(".NA", ".", names(var$freq.mis))
+## 
+##     catgry <- data.frame(value=c(as.numeric(names(var$val.labels.valid)),
+##                                  as.numeric(names(var$val.labels.mis))),
+##                          labl=c(var$val.labels.valid, var$val.labels.mis),
+##                          freq=c(var$freq.valid[var$val.labels.valid],
+##                                 var$freq.mis[var$val.labels.mis])
+##                          valid=c(rep(TRUE, length(var$val.labels.valid)),
+##                                  rep(FALSE, length(var$val.labels.mis))))
+## 
+##     browser()
     for(i in 1:length(tab))
       catgry[[i]] <-
         list(

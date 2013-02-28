@@ -2,7 +2,7 @@
 
 library("r2ddi")
 
-filename="r2ddi/data/test.dta"
+filename="r2ddi/data/test2.dta"
 data_name="stata_data"
 data_label="Stata Test Data"
 missing_codes=NULL
