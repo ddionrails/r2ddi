@@ -88,7 +88,7 @@ ddiExtractor.extract_ddiVar <-
       catgry[[i]] <-
         list(
           value   = names(tab[i]),
-          labl    = var$val.labels[[i]],
+          labl    = var$val.labels[i],
           valid   = TRUE,
           freq    = tab[[i]])
     return(catgry)
