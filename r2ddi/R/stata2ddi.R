@@ -1,13 +1,9 @@
-#
-# stata2ddi(file, data.label, keep.data)
-#
-# Import Stata file into ddi object
-#
-# Arguments:
-# * file: Path to data file
-# * data.label: Name of the data set
-# * keep.data: Include the original data in the DDI object
-#
+#' stata to ddi
+#'
+#' Whatever...
+#' 
+#' @param filename Name of a Stata file
+#' @export stata2ddi
 stata2ddi <-
   function(
     filename,

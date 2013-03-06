@@ -1,5 +1,4 @@
 S3method(print,ddi)
-export(stata2ddi)
 export(ddi2xml)
 export(print.ddi)
-export(createDatasetsTemplate)
+export(stata2ddi)

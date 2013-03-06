@@ -1,4 +1,7 @@
-#
+#' Print ddi object
+#'
+#' @S3method print ddi
+#' @export
 
 print.ddi <- function(ddi)
 {

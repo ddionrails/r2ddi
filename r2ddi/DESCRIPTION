@@ -2,8 +2,7 @@ Package: r2ddi
 Version: 0.1.1
 Date: 2012
 Title: Converting various data formats to DDI
-Author:
-    Marcel Hebing <mhebing@diw.de>,
+Author: Marcel Hebing <mhebing@diw.de>,
     Jan Goebel <jgoebel@diw.de>
 Maintainer: Marcel Hebing <mhebing@diw.de>
 Depends:
@@ -19,3 +18,11 @@ Description: Import various data formats (like CSV, Stata,
 License: GPL
 URL: https://github.com/mhebing/r2ddi
 BugReport: https://github.com/mhebing/r2ddi/issues
+Collate:
+    'createDatasetsTemplate.R'
+    'ddi2xml.R'
+    'ddiExtractor.R'
+    'missings.stata.R'
+    'print.ddi.R'
+    'stata2ddi.R'
+    'varDscr.stata.R'

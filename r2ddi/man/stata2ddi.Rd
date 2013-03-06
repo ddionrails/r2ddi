@@ -1,13 +1,14 @@
 \name{stata2ddi}
 \alias{stata2ddi}
-\title{Generate a DDI object from a Stata file}
+\title{stata to ddi}
 \usage{
-  stata2ddi(filename, data_name, ...)
+  stata2ddi(filename, data_name, data_label = NULL,
+    missing.codes = NULL, keep_data = TRUE)
 }
 \arguments{
-  \item{filename}{Stata file}
-  \item{data_name}{The dataset's name}
-  \item{data_label}{Label}
-  \item{missing.codes}{Vecor with specific missing codes}
-  \item{keep_data}{Keep original data in the DDI object (TRUE) or not (FALSE)}
+  \item{filename}{Name of a Stata file}
 }
+\description{
+  Whatever...
+}
+

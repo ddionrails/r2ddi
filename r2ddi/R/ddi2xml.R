@@ -1,5 +1,7 @@
-# New XML function
-
+#' New XML function
+#'
+#' @method ddi2xml
+#' @export ddi2xml
 ddi2xml <- function(ddi, filename)
 {
 

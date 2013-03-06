@@ -1,10 +1,10 @@
 \name{ddi2xml}
 \alias{ddi2xml}
-\title{Export DDI object to DDI file}
+\title{New XML function}
 \usage{
-  ddi2xml(ddi, filename)
+  \method{ddi2xml}{} (ddi, filename)
 }
-\arguments{
-  \item{ddi}{DDI object}
-  \item{filename}{Filename for XML file}
+\description{
+  New XML function
 }
+
