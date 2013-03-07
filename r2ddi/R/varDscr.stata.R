@@ -1,5 +1,7 @@
-#
-
+#' Variable description (Stata)
+#'
+#' Produce variable description for Stata-based documentation.
+#' 
 varDscr.stata <- 
   function(
     i,
@@ -8,47 +10,46 @@ varDscr.stata <-
     format,
     val_labels,
     var,
-    missings,
-    missing_codes=NULL)
+    missings      = NA,
+    missing_codes = NULL)
 {
 
-  var_dscr <- list(
-    name       = name,
-    label      = label,
-    val_labels = val_labels,
-    data       =
-      if(is.null(missing_codes))
-      {
-        var
-      } else {
-        ifelse(var %in% missing_codes, NA, var)
-      },
-    miss       = r2ddi:::missings.stata(var, missings, missing_codes),
-    format     = format)
+  data_frame <- data.stata(var, missings, missing_codes)
 
-  tmp_labels <-
+  # TODO: Do we handle "."-missings correctly?
+  tmp_values <-
     ifelse(
-      as.numeric(names(var_dscr$val_labels)) > 2147483620,
-      as.numeric(names(var_dscr$val_labels)) - 2147483621,
+      as.numeric(names(val_labels)) > 2147483620,
+      as.numeric(names(val_labels)) - 2147483621,
       0)
 
-  var_dscr_df <-
+  value_frame <-
     data.frame(
-      label = var_dscr$val_labels,
-      stata_values = names(var_dscr$val_labels),
-      values =
+      label        = val_labels,
+      stata_values = names(val_labels),
+      values       =
         ifelse(
-          as.numeric(names(var_dscr$val_labels)) > 2147483620,
-          paste(".", letters[tmp_labels], sep=""),
-          names(var_dscr$val_labels)),
-      valid =
+          as.numeric(names(val_labels)) > 2147483620,
+          paste(".", letters[tmp_values], sep=""),
+          names(val_labels)),
+      valid        =
         ifelse(
-          as.numeric(names(var_dscr$val_labels)) > 2147483620,
+          as.numeric(names(val_labels)) > 2147483620,
           FALSE,
           TRUE)
       )
 
-  attributes(var_dscr$data) = NULL
+  var_dscr <- list(
+    name        = name,
+    label       = label,
+    val_labels  = val_labels,
+    data        = data,
+    data_frame  = data_frame,
+    value_frame = value_frame,
+    miss        = r2ddi:::missings.stata(var, missings, missing_codes),
+    format      = format)
+
+  attributes(var_dscr$data) <- NULL
 
   return(var_dscr)
 }
