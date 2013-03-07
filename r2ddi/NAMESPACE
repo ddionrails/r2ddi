@@ -1,5 +1,5 @@
 S3method(print,ddi)
-export(ddi.attachFileDscr)
+export(attachFileDscr)
 export(ddi2xml)
 export(print.ddi)
 export(stata2ddi)

@@ -3,7 +3,7 @@
 #' @param master This is the main object, which will be extended.
 #' @param attachment This object will be attached to the master object.
 #' @export
-ddi.attachFileDscr <-
+attachFileDscr <-
   function(master, attachment)
 {
 

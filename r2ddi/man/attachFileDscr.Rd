@@ -1,8 +1,8 @@
-\name{ddi.attachFileDscr}
-\alias{ddi.attachFileDscr}
+\name{attachFileDscr}
+\alias{attachFileDscr}
 \title{Attach file_dscr from another DDI object}
 \usage{
-  ddi.attachFileDscr(master, attachment)
+  attachFileDscr(master, attachment)
 }
 \arguments{
   \item{master}{This is the main object, which will be
