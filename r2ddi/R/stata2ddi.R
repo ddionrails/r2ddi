@@ -28,8 +28,8 @@ stata2ddi <-
       convert.dates   = FALSE,
       missing.type    = TRUE )
 
-  # TODO(mhebing): still neccessary after use of lapply?  
-  # --> Neccessary for val.labels ?!
+  # TODO: still neccessary after use of lapply?  
+  #       -> Neccessary for val.labels ?!
   names(attr(stata_file, "var.labels"))   <-
     names(attr(stata_file, "val.labels")) <-
       names(attr(stata_file, "formats"))  <-
@@ -58,6 +58,8 @@ stata2ddi <-
       var_dscr    = list())
 
   # Add var_dscr to data_dscr
+  # TODO Move all attributes (exept for missing_codes and keep_data)
+  #      to the raw data_dscr list to reduce attributes.
   data_dscr$var_dscr <-
     lapply(
       seq_along(stata_file),
@@ -68,30 +70,13 @@ stata2ddi <-
           name          = attr(stata_file, "names")[i],
           label         = attr(stata_file, "var.labels")[i],
           format        = attr(stata_file, "formats")[i],
-          val_labels    = attr(var, "val_labels"),
+          val_labels    = attr(stata_file[[i]], "val_labels"),
           var           = stata_file[[i]],
           missings      = attr(stata_file, "missings")[[i]],
-          missing_codes = missing_codes)
+          missing_codes = missing_codes,
+          keep_data     = keep_data)
       })
   names(data_dscr$var_dscr) <- names(stata_file)
-
-  # TODO(mhebing): move call of ddiExtractor() to var_dscr.stata()?!
-  if(multicore)
-  {
-    data_dscr$var_dscr <-
-      mclapply(
-        data_dscr$var_dscr,
-        r2ddi:::ddiExtractor,
-        keep_data   = keep_data,
-        file_format = "Stata")
-  } else {
-    data_dscr$var_dscr <-
-      lapply(
-        data_dscr$var_dscr,
-        r2ddi:::ddiExtractor,
-        keep_data   = keep_data,
-        file_format = "Stata")
-  }
 
   ddi <-
    list(
