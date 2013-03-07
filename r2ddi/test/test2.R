@@ -2,14 +2,14 @@
 library("r2ddi")
 
 ## Params
-filename      = "test/test1.dta"
+filename      = "test/test2.dta"
 data_name     = "stata_data"
 data_label    = "Stata Test Data"
 missing_codes = NULL
 keep_data     = TRUE
 
 ## Load data and create ddi object
-test1 <-
+test2 <-
   stata2ddi(
     filename,
     data_name,
@@ -18,5 +18,5 @@ test1 <-
     keep_data )
 
 ## Export ddi object to xml
-ddi2xml(test1, "tmp/test1.xml")
+ddi2xml(test2, "tmp/test2.xml")
 
