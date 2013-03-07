@@ -1,17 +1,17 @@
 #
 
-missings.stata <- function(data, missings, missing.codes=NULL)
+missings.stata <- function(data, missings, missing_codes=NULL)
 {
 
   if(length(data) != length(missings))
     missings <- rep(NA, length(data))
 
-  if(is.null(missing.codes))
+  if(is.null(missing_codes))
     return(missings)
 
   missings <-
     ifelse(
-      data %in% missing.codes & data != NA,
+      data %in% missing_codes & data != NA,
       var,
       missings)
 

@@ -9,7 +9,7 @@ stata2ddi <-
     filename,
     data_name,
     data_label    = NULL,
-    missing.codes = NULL,
+    missing_codes = NULL,
     keep_data     = TRUE)
 {
 
@@ -43,7 +43,7 @@ stata2ddi <-
       names(attr(stata_file, "formats"))  <-
         names(attr(stata_file, "types"))  <- names(stata_file)
 
-  stata.missings <-
+  stata_missings <-
     attr(stata_file, "missing")
   attr(stata_file, "missing") <-
     NULL
@@ -51,9 +51,9 @@ stata2ddi <-
   #Value labels [jgoebel: Verstehe nicht was das soll??]
   for(name in names(attr(stata_file, "label.table")))
   {
-    val.labels = names(attr(stata_file, "label.table")[[name]])
-    names(val.labels) = attr(stata_file, "label.table")[[name]]
-    attr(stata_file[[name]], "val.labels") = val.labels
+    val_labels = names(attr(stata_file, "label.table")[[name]])
+    names(val_labels) = attr(stata_file, "label.table")[[name]]
+    attr(stata_file[[name]], "val_labels") = val_labels
   }
 
   dataDscr$varDscr <-
@@ -64,9 +64,9 @@ stata2ddi <-
         r2ddi:::varDscr.stata(
           i             = i,
           var           = stata_file[[i]],
-          missings      = stata.missings[[i]],
+          missings      = stata_missings[[i]],
           attr          = attributes(stata_file),
-          missing.codes = missing.codes)
+          missing_codes = missing_codes)
       })
 
   names(dataDscr$varDscr) <- names(stata_file)
@@ -75,7 +75,7 @@ stata2ddi <-
   dataDscr$varDscr <-
     lapply(
       dataDscr$varDscr,
-      r2ddi:::ddiExtractor.extract_ddiVar,
+      r2ddi:::ddiExtractor,
       keep_data,
       file_format = "Stata")
 

@@ -1,45 +1,45 @@
 
-createDatasetsTemplate <- function(template.filename="datasets.csv", readme.filename="datasets.txt"){
+createDatasetsTemplate <- function(template_filename="datasets.csv", readme_filename="datasets.txt"){
 
   datasets <-
     data.frame(
-      "Dataset.name"=NA,
-      "Dataset.path"=NA,
-      "Dataset.format"=NA,
-      "Dataset.type"=NA)
+      "dataset_name"=NA,
+      "dataset_path"=NA,
+      "dataset_format"=NA,
+      "dataset_type"=NA)
 
   write.csv(
     datasets,
-    template.filename,
+    template_filename,
     na="",
     quote=FALSE,
     row.names=FALSE)
 
-  cat(paste("Import Template written to ", template.filename, ".\n", sep=""))
+  cat(paste("Import Template written to ", template_filename, ".\n", sep=""))
 
   readme <-
 '
 Readme for datasets template
 ============================
 
-"Dataset.name": Name of the dataset. Must be unique within a study.
+"dataset_name": Name of the dataset. Must be unique within a study.
 
-"Dataset.path": Path to the dataset.
+"dataset_path": Path to the dataset.
 
-"Dataset.format: Format of the file:
+"dataset_format: Format of the file:
 * Stata
 * SPSS
 * CSV
 
-Dataset.type:
+dataset_type:
 * "cross": Cross-sectional dataset.
-* "long":  Dataset in the long-format.
+* "long":  dataset in the long-format.
 * "spell": Spell dataset.
 '
 
-  write(readme, readme.filename)
+  write(readme, readme_filename)
 
-  cat(paste("Readme file written to ", readme.filename, ".\n", sep=""))
+  cat(paste("Readme file written to ", readme_filename, ".\n", sep=""))
 
 }
 

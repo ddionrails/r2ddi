@@ -9,7 +9,7 @@
 #                           -> increases size
 # * file_format=[NA|Stata|SPSS|CSV|data.frame]: format (default=NA)
 #
-ddiExtractor.extract_ddiVar <-
+ddiExtractor <-
   function(
     var,
     keep_data,
@@ -65,7 +65,7 @@ ddiExtractor.extract_ddiVar <-
     tab <- table(var$data)
     catgry <- list()
 
-    var$freq.valid <- table(var$data)
+    var$freq_valid <- table(var$data)
 ##     names(var$freq.valid) <- ifelse(names(var$freq.valid) %in% names(var$val.labels),
 ##                                     var$val.labels, "XXX")
 ##     var$freq.valid <- table(factor(var$data,
@@ -88,7 +88,7 @@ ddiExtractor.extract_ddiVar <-
       catgry[[i]] <-
         list(
           value   = names(tab[i]),
-          labl    = var$val.labels[i],
+          labl    = var$val_labels[i],
           valid   = TRUE,
           freq    = tab[[i]])
     return(catgry)
@@ -118,7 +118,7 @@ ddiExtractor.extract_ddiVar <-
 
   if (class(var$data) == "numeric" | class(var$data) == "integer")
   {
-    if (is.null(var$val.labels))
+    if (is.null(var$val_labels))
     {
       var$sumStat <- stat_numeric(var)
       var$intrvl  <- "numeric"
