@@ -13,7 +13,7 @@ ddiExtractor <-
   function(
     var,
     keep_data,
-    file_format=NA)
+    file_format = NULL)
 {
 
   ##### INTERNAL FUNCTIONS #####

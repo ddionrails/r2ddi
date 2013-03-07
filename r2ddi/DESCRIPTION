@@ -27,3 +27,4 @@ Collate:
     'print.ddi.R'
     'stata2ddi.R'
     'varDscr.stata.R'
+    'attachFileDscr.R'
