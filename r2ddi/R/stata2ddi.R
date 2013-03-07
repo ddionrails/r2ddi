@@ -35,25 +35,16 @@ stata2ddi <-
       names(attr(stata_file, "formats"))  <-
         names(attr(stata_file, "types"))  <- names(stata_file)
 
-  #Value labels [jgoebel: Verstehe nicht was das soll??]
-  for(name in names(attr(stata_file, "label.table")))
-  {
-    val_labels <- names(attr(stata_file, "label.table")[[name]])
-    names(val_labels) <- attr(stata_file, "label.table")[[name]]
-    attr(stata_file[[name]], "val_labels") <- val_labels
-  }
-
   # Build basic data_dscr
   data_dscr <-
     list(
       name        = data_name,
       file_name   = filename,
       file_format = "Stata",
-      label       =
-        ifelse(
-          is.null(data_label),
-          attr(stata_file, "datalabel"),
-          data_label),
+      label       = ifelse(
+                      is.null(data_label),
+                      attr(stata_file, "datalabel"),
+                      data_label),
       timeStamp   = attr(stata_file, "time.stamp"),
       var_dscr    = list())
 
@@ -70,7 +61,9 @@ stata2ddi <-
           name          = attr(stata_file, "names")[i],
           label         = attr(stata_file, "var.labels")[i],
           format        = attr(stata_file, "formats")[i],
-          val_labels    = attr(stata_file[[i]], "val_labels"),
+          val_labels    = attr(stata_file, "label.table")[[
+                            attr(stata_file, "val.labels")[[
+                              names(stata_file)[i] ]] ]],
           var           = stata_file[[i]],
           missings      = attr(stata_file, "missings")[[i]],
           missing_codes = missing_codes,

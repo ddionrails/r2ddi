@@ -20,24 +20,24 @@ varDscr.stata <-
   # TODO: Do we handle "."-missings correctly?
   tmp_values <-
     ifelse(
-      as.numeric(names(val_labels)) > 2147483620,
-      as.numeric(names(val_labels)) - 2147483621,
+      val_labels >= 2147483621,
+      val_labels - 2147483621,
       0)
 
   value_frame <-
     data.frame(
-      label        = val_labels,
-      stata_values = names(val_labels),
-      values       =
-        ifelse(
-          as.numeric(names(val_labels)) > 2147483620,
-          paste(".", letters[tmp_values], sep=""),
-          names(val_labels)),
-      valid        =
-        ifelse(
-          as.numeric(names(val_labels)) > 2147483620,
-          FALSE,
-          TRUE))
+      label            = names(val_labels),
+      stata_value      = val_labels,
+      value            = ifelse(
+                           val_labels >= 2147483621,
+                           paste(".", letters[tmp_values], sep=""),
+                           val_labels),
+      valid            = ifelse(
+                           val_labels >= 2147483621 |
+                           val_labels %in% missing_codes,
+                           FALSE,
+                           TRUE),
+      stringsAsFactors = FALSE)
 
   # TODO:
   #   - replace data and miss by data_frame

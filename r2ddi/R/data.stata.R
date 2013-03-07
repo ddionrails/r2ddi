@@ -23,21 +23,21 @@ data.stata <-
   if(is.null(missing_codes))
     return(
       data.frame(
-        valid   = valid,
-        missing = missing))
+        valid            = valid,
+        missing          = missing,
+        stringsAsFactors = FALSE))
 
   return(
     data.frame(
-      valid =
-        ifelse(
-          valid %in% missing_codes,
-          NA,
-          valid),
-      missing =
-        ifelse(
-          valid %in% missing_codes & valid != NA,
-          var,
-          missing)))
+      valid            = ifelse(
+                           valid %in% missing_codes,
+                           NA,
+                           valid),
+      missing          = ifelse(
+                           valid %in% missing_codes & valid != NA,
+                           valid,
+                           missing),
+      stringsAsFactors = FALSE))
 }
 
 

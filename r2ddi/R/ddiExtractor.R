@@ -54,43 +54,37 @@ ddiExtractor <-
 
   catgry_labeled_numeric <- function(var)
   {
-    ## Wird hier ein factor uebergeben oder eine numerische
-    ## Variable?? Nach der einlese logik muesste es eine
-    ## numerische Variable sein. Meiner Meinung muesste wir
-    ## hier nach dem missmatch suchen
-    ## Im Prinzip hat man alle Information um ein
-    ## table(factor(var$data, levels=, labels=)
-    ## zu machen.
-    ## Allerdings muss auch die For Schleife dann umgeschrieben werden
-    tab <- table(var$data)
+    valid_tab   <- table(var$data_frame$valid)
+    missing_tab <- table(var$data_frame$missing)
+
+    # TODO: merge valid_tab and missing_tab with value_frame
+
     catgry <- list()
 
-    var$freq_valid <- table(var$data)
-##     names(var$freq.valid) <- ifelse(names(var$freq.valid) %in% names(var$val.labels),
-##                                     var$val.labels, "XXX")
-##     var$freq.valid <- table(factor(var$data,
-##                                 levels=as.numeric(names(var$val.labels)),
-##                                 labels=var$val.labels))
-##     var$freq.mis <- table(ifelse(is.na(var$miss), NA,
-##                               paste(".", letters[var$miss], sep="")))
-##     names(var$freq.mis) <- gsub(".NA", ".", names(var$freq.mis))
-## 
-##     catgry <- data.frame(value=c(as.numeric(names(var$val.labels.valid)),
-##                                  as.numeric(names(var$val.labels.mis))),
-##                          labl=c(var$val.labels.valid, var$val.labels.mis),
-##                          freq=c(var$freq.valid[var$val.labels.valid],
-##                                 var$freq.mis[var$val.labels.mis])
-##                          valid=c(rep(TRUE, length(var$val.labels.valid)),
-##                                  rep(FALSE, length(var$val.labels.mis))))
-## 
-##     browser()
-    for(i in 1:length(tab))
-      catgry[[i]] <-
-        list(
-          value   = names(tab[i]),
-          labl    = var$val_labels[i],
-          valid   = TRUE,
-          freq    = tab[[i]])
+    if(length(valid_tab) > 0)
+    {
+      for(i in 1:length(valid_tab))
+        catgry[[names(valid_tab)[i] ]] <-
+          list(
+            value   = names(valid_tab[i]),
+            labl    = var$value_frame$label[
+                        var$value_frame$value == names(valid_tab)[i] ],
+            valid   = TRUE,
+            freq    = valid_tab[[i]])
+    }
+
+    if(length(missing_tab) > 0)
+    {
+      for(i in 1:length(missing_tab))
+        catgry[[names(missing_tab)[i] ]] <-
+          list(
+            value   = names(missing_tab[i]),
+            labl    = var$value_frame$label[
+                        var$value_frame$value == names(missing_tab)[i] ],
+            valid   = TRUE,
+            freq    = missing_tab[[i]])
+    }
+
     return(catgry)
   }
 
