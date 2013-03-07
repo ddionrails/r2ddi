@@ -3,7 +3,8 @@
 \title{stata to ddi}
 \usage{
   stata2ddi(filename, data_name, data_label = NULL,
-    missing.codes = NULL, keep_data = TRUE)
+    missing_codes = NULL, keep_data = TRUE,
+    multicore = FALSE)
 }
 \arguments{
   \item{filename}{Name of a Stata file}

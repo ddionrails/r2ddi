@@ -20,7 +20,7 @@ varDscr.stata <-
       } else {
         ifelse(var %in% missing_codes, NA, var)
       },
-    miss = r2ddi:::missings_stata(var, missings, missing_codes),
+    miss = r2ddi:::missings.stata(var, missings, missing_codes),
     format = attr$formats[[i]])
 
   tmp_labels <-

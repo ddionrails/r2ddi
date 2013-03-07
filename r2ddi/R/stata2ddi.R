@@ -10,7 +10,8 @@ stata2ddi <-
     data_name,
     data_label    = NULL,
     missing_codes = NULL,
-    keep_data     = TRUE)
+    keep_data     = TRUE,
+    multicore     = FALSE)
 {
 
   # Read Stata file
@@ -72,12 +73,22 @@ stata2ddi <-
   names(dataDscr$varDscr) <- names(stata_file)
 
   # TODO(mhebing): move call of ddiExtractor() to varDscr.stata()?!
-  dataDscr$varDscr <-
-    lapply(
-      dataDscr$varDscr,
-      r2ddi:::ddiExtractor,
-      keep_data,
-      file_format = "Stata")
+  if(multicore)
+  {
+    dataDscr$varDscr <-
+      mclapply(
+        dataDscr$varDscr,
+        r2ddi:::ddiExtractor,
+        keep_data,
+        file_format = "Stata")
+  } else {
+    dataDscr$varDscr <-
+      lapply(
+        dataDscr$varDscr,
+        r2ddi:::ddiExtractor,
+        keep_data,
+        file_format = "Stata")
+  }
 
   ddi <- list( fileDscr=list(dataDscr) )
   names(ddi$fileDscr) <- dataDscr$name
