@@ -1,4 +1,4 @@
-#
+#' Missings in Stata
 
 missings.stata <- function(data, missings, missing_codes=NULL)
 {

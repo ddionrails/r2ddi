@@ -5,29 +5,29 @@
 ddi2xml <- function(ddi, filename)
 {
 
-  renderFileDscr <- function(fileDscr, codebook)
+  renderFileDscr <- function(file_dscr, codebook)
   {
     fileDscrNode <-
       newXMLNode(
         "fileDscr",
         parent = codebook,
-        attrs  = c(ID = fileDscr$name))
-    lapply(fileDscr$varDscr, renderVar, fileDscr$name, codebook)
+        attrs  = c(ID = file_dscr$name))
+    lapply(file_dscr$var_dscr, renderVar, file_dscr$name, codebook)
   }
 
-  renderVar <- function(varDscr, filename, codebook)
+  renderVar <- function(var_dscr, filename, codebook)
   {
     varNode <-
       newXMLNode(
         "var",
         parent = codebook["dataDscr"],
         attrs  = c(
-          ID      = varDscr$name,
-          intrvl  = varDscr$intrvl,
+          ID      = var_dscr$name,
+          intrvl  = var_dscr$intrvl,
           files   = filename))
-      newXMLNode("labl", varDscr$label, parent=varNode)
-    lapply(seq_along(varDscr$sumStat), renderSumStat, varDscr$sumStat, varNode)
-    lapply(varDscr$catgry,  renderCatgry,  varNode)
+      newXMLNode("labl", var_dscr$label, parent=varNode)
+    lapply(seq_along(var_dscr$sumStat), renderSumStat, var_dscr$sumStat, varNode)
+    lapply(var_dscr$catgry,  renderCatgry,  varNode)
   }
 
   renderSumStat <- function(i, sumStats, varNode)
@@ -60,7 +60,7 @@ ddi2xml <- function(ddi, filename)
   codebook <- newXMLNode("codebook")
   dataDscr <- newXMLNode("dataDscr", parent = codebook)
 
-  lapply(ddi$fileDscr, renderFileDscr, codebook)
+  lapply(ddi$file_dscr, renderFileDscr, codebook)
 
   saveXML(codebook, file = filename)
 }

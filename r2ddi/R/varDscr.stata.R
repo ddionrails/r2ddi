@@ -3,49 +3,52 @@
 varDscr.stata <- 
   function(
     i,
+    name,
+    label,
+    format,
+    val_labels,
     var,
     missings,
-    attr,
     missing_codes=NULL)
 {
 
-  varDscr <- list(
-    name = attr$names[[i]],
-    label = attr$var_labels[[i]],
-    val_labels       = attr(var, "val_labels"),
-    data =
+  var_dscr <- list(
+    name       = name,
+    label      = label,
+    val_labels = val_labels,
+    data       =
       if(is.null(missing_codes))
       {
         var
       } else {
         ifelse(var %in% missing_codes, NA, var)
       },
-    miss = r2ddi:::missings.stata(var, missings, missing_codes),
-    format = attr$formats[[i]])
+    miss       = r2ddi:::missings.stata(var, missings, missing_codes),
+    format     = format)
 
   tmp_labels <-
     ifelse(
-      as.numeric(names(varDscr$val_labels)) > 2147483620,
-      as.numeric(names(varDscr$val_labels)) - 2147483621,
+      as.numeric(names(var_dscr$val_labels)) > 2147483620,
+      as.numeric(names(var_dscr$val_labels)) - 2147483621,
       0)
 
-  varDscr_df <-
+  var_dscr_df <-
     data.frame(
-      label = varDscr$val_labels,
-      stata_values = names(varDscr$val_labels),
+      label = var_dscr$val_labels,
+      stata_values = names(var_dscr$val_labels),
       values =
         ifelse(
-          as.numeric(names(varDscr$val_labels)) > 2147483620,
+          as.numeric(names(var_dscr$val_labels)) > 2147483620,
           paste(".", letters[tmp_labels], sep=""),
-          names(varDscr$val_labels)),
+          names(var_dscr$val_labels)),
       valid =
         ifelse(
-          as.numeric(names(varDscr$val_labels)) > 2147483620,
+          as.numeric(names(var_dscr$val_labels)) > 2147483620,
           FALSE,
           TRUE)
       )
 
-  attributes(varDscr$data) = NULL
+  attributes(var_dscr$data) = NULL
 
-  return(varDscr)
+  return(var_dscr)
 }

@@ -5,12 +5,12 @@
 #
 ddi.example = function() {
   ddi = list(
-    docDscr  = list(),
-    stdyDscr = list(),
-    fileDscr = list(
+    doc_dscr  = list(),
+    stdy_dscr = list(),
+    file_dscr = list(
       file_plong = list(
         name    = "file1",
-        varDscr = list(
+        var_dscr = list(
           var_age = list(
             name    = "age",
             labl    = "Age in 2011",  
@@ -74,7 +74,7 @@ ddi.example = function() {
 print.ddi = function(ddi) {
   result =
     lapply(
-      ddi$fileDscr,
+      ddi$file_dscr,
       function(x) {
         x$name
       } )
@@ -102,7 +102,7 @@ stata2ddi = function(filename) {
   file = list()
   class(file) = "ddi.file"
   file$name = filename
-  file$varDscr = list()
+  file$var_dscr = list()
 
   # Internal function: extract_metadata(stata_var)
   extract_metadata = function(stata_var) {
@@ -111,7 +111,7 @@ stata2ddi = function(filename) {
     return(var)
   }
 
-  file$varDscr = lapply(stata_file, extract_metadata)
+  file$var_dscr = lapply(stata_file, extract_metadata)
 
   return(file)
 
