@@ -20,7 +20,7 @@ varDscr.stata <-
   value_frame <-
     data.frame(
       label            = names(val_labels),
-      value      = val_labels,
+      value            = val_labels,
       valid            = ifelse(
                            val_labels >= 2147483621 |
                            val_labels %in% missing_codes,
@@ -46,7 +46,7 @@ varDscr.stata <-
 
   # TODO: is "r2ddi:::" neccessary?
   var_dscr <-
-    r2ddi:::ddiExtractor(
+    ddiExtractor(
       var_dscr,
       keep_data   = keep_data,
       file_format = "Stata")

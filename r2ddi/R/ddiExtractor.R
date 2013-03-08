@@ -52,83 +52,10 @@ ddiExtractor <-
     return("stat_factor")
   }
 
+  # DEPRECATED !!!
   catgry_labeled_numeric <- function(var)
   {
-    valid_tab   <- valid_labels   <- table(var$data_frame$valid)
-    missing_tab <- missing_labels <-table(var$data_frame$missing)
-    attributes(valid_tab) <- attributes(missing_tab) <- NULL
-
-    if(length(valid_tab) > 0)
-      valid_freq <-
-        data.frame(
-          value            = names(valid_labels),
-          freq             = valid_tab,
-          valid            = TRUE,
-          stringsAsFactors = FALSE)
-    else
-      valid_freq <- NULL
-
-    if(length(missing_tab) > 0)
-      missing_freq <-
-        data.frame(
-          value            = names(missing_labels),
-          freq             = missing_tab,
-          valid            = FALSE,
-          stringsAsFactors = FALSE)
-    else
-      missing_freq <- NULL
-
-    if(!is.null(valid_freq) & !is.null(missing_freq))
-      freq <- rbind(valid_freq, missing_freq)
-    else if(!is.null(valid_freq))
-      freq <- valid_freq
-    else if (!is.null(missing_freq))
-      freq <- missing_freq
-    else
-      freq <- NULL
-
-    xx <-
-      merge(
-        var$value_frame,
-        freq,
-        by  = "value",
-        all = TRUE)
-
-    xx$valid <- ifelse(is.na(xx$valid.x), xx$valid.y, xx$valid.x)
-    xx$freq  <- ifelse(is.na(xx$freq),    0,          xx$freq   )
-
-    xx$valid.y <- xx$valid.x <- NULL
-
-    browser()
-
     catgry <- list()
-
-if(FALSE)
-{
-    if(length(valid_tab) > 0)
-    {
-      for(i in 1:length(valid_tab))
-        catgry[[names(valid_tab)[i] ]] <-
-          list(
-            value   = names(valid_tab[i]),
-            labl    = var$value_frame$label[
-                        var$value_frame$value == names(valid_tab)[i] ],
-            valid   = TRUE,
-            freq    = valid_tab[[i]])
-    }
-
-    if(length(missing_tab) > 0)
-    {
-      for(i in 1:length(missing_tab))
-        catgry[[names(missing_tab)[i] ]] <-
-          list(
-            value   = names(missing_tab[i]),
-            labl    = var$value_frame$label[
-                        var$value_frame$value == names(missing_tab)[i] ],
-            valid   = TRUE,
-            freq    = missing_tab[[i]])
-    }
-}
     return(catgry)
   }
 
@@ -163,7 +90,8 @@ if(FALSE)
     } else {
       var$sumStat <- stat_labeled_numeric(var)
       var$catgry  <- catgry_labeled_numeric(var)
-      var$intrvl  <- "labeled numeric"
+      var$value_table <- freq.labeled_numeric(var)
+      var$intrvl  <- "labeled_numeric"
     }
   } else if (class(var$data) == "character") {
     var$sumStat <- stat_character(var)

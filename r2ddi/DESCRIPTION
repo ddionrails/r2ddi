@@ -29,3 +29,4 @@ Collate:
     'varDscr.stata.R'
     'attachFileDscr.R'
     'data.stata.R'
+    'freq.labeled_numeric.R'
