@@ -62,5 +62,17 @@ varDscr.stata <-
       keep_data   = keep_data,
       file_format = "Stata")
 
+#  tmp_values <-
+#    ifelse(
+#      var_dscr$value_frame$value >= 2147483621,
+#      var_dscr$value_frame$value - 2147483621,
+#      0)
+#
+#  var_dscr$value_frame$value <-
+#    ifelse(
+#      var_dscr$value_frame$value >= 2147483621,
+#      paste(".", letters[tmp_values], sep=""),
+#      var_dscr$value_frame$value)
+
   return(var_dscr)
 }

@@ -65,7 +65,7 @@ stata2ddi <-
                             attr(stata_file, "val.labels")[[
                               names(stata_file)[i] ]] ]],
           var           = stata_file[[i]],
-          missings      = attr(stata_file, "missings")[[i]],
+          missings      = attr(stata_file, "missing")[[i]],
           missing_codes = missing_codes,
           keep_data     = keep_data)
       })

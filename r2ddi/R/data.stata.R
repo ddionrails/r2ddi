@@ -19,6 +19,8 @@ data.stata <-
 
   if(length(valid) != length(missing))
     missing <- rep(NA, length(valid))
+  else
+    missing <- missing + 2147483621
 
   if(is.null(missing_codes))
     return(

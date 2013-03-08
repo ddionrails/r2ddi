@@ -54,13 +54,59 @@ ddiExtractor <-
 
   catgry_labeled_numeric <- function(var)
   {
-    valid_tab   <- table(var$data_frame$valid)
-    missing_tab <- table(var$data_frame$missing)
+    valid_tab   <- valid_labels   <- table(var$data_frame$valid)
+    missing_tab <- missing_labels <-table(var$data_frame$missing)
+    attributes(valid_tab) <- attributes(missing_tab) <- NULL
 
-    # TODO: merge valid_tab and missing_tab with value_frame
+    if(length(valid_tab) > 0)
+      valid_freq <-
+        data.frame(
+          stata_value      = names(valid_labels),
+          freq             = valid_tab,
+          valid            = TRUE,
+          stringsAsFactors = FALSE)
+    else
+      valid_freq <- NULL
+
+    if(length(missing_tab) > 0)
+      missing_freq <-
+        data.frame(
+          stata_value      = names(missing_labels),
+          freq             = missing_tab,
+          valid            = FALSE,
+          stringsAsFactors = FALSE)
+    else
+      missing_freq <- NULL
+
+    if(!is.null(valid_freq) & !is.null(missing_freq))
+      freq <- rbind(valid_freq, missing_freq)
+    else if(!is.null(valid_freq))
+      freq <- valid_freq
+    else if (!is.null(missing_freq))
+      freq <- missing_freq
+    else
+      freq <- NULL
+
+    xx <-
+      merge(
+        var$value_frame,
+        freq,
+        by  = "stata_value",
+        all = TRUE)
+
+    xx$valid <- ifelse( is.na(xx$valid.x), xx$valid.y,     xx$valid.x )
+    xx$freq  <- ifelse( is.na(xx$freq),    0,              xx$freq    )
+    xx$value <- ifelse( is.na(xx$value),   xx$stata_value, xx$value   )
+    # TODO: if missing value is missing, check for ".", ".a", etc.
+
+    xx$valid.y <- xx$valid.x <- NULL
+
+    browser()
 
     catgry <- list()
 
+if(FALSE)
+{
     if(length(valid_tab) > 0)
     {
       for(i in 1:length(valid_tab))
@@ -84,7 +130,7 @@ ddiExtractor <-
             valid   = TRUE,
             freq    = missing_tab[[i]])
     }
-
+}
     return(catgry)
   }
 
