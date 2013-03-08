@@ -6,8 +6,8 @@
 freq.labeled_numeric <-
   function(variable)
 {
-  valid_tab   <- valid_labels   <- table(variable$data_frame$valid)
-  missing_tab <- missing_labels <-table(variable$data_frame$missing)
+  valid_tab   <- valid_labels   <- table(variable$data_table$valid)
+  missing_tab <- missing_labels <-table(variable$data_table$missing)
   attributes(valid_tab) <- attributes(missing_tab) <- NULL
 
   if(length(valid_tab) > 0)
@@ -41,7 +41,7 @@ freq.labeled_numeric <-
 
   value_table <-
     merge(
-      variable$value_frame,
+      variable$value_table,
       freq,
       by  = "value",
       all = TRUE)
@@ -51,7 +51,7 @@ freq.labeled_numeric <-
 
   value_table$valid.y <- value_table$valid.x <- NULL
 
-  catgry <- list(value_table)
+  value_table
 }
 
 

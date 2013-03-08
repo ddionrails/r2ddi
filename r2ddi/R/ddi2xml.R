@@ -27,7 +27,8 @@ ddi2xml <- function(ddi, filename)
           files   = filename))
       newXMLNode("labl", var_dscr$label, parent=varNode)
     lapply(seq_along(var_dscr$sumStat), renderSumStat, var_dscr$sumStat, varNode)
-    lapply(var_dscr$catgry,  renderCatgry,  varNode)
+    if(nrow(var_dscr$value_table) > 0)
+      apply(var_dscr$value_table, 1, renderCatgry, varNode)
   }
 
   renderSumStat <- function(i, sumStats, varNode)
@@ -40,19 +41,16 @@ ddi2xml <- function(ddi, filename)
         attrs  = c(type = names(sumStats)[i]))
   }
 
-  renderCatgry <- function(catgry, varNode)
+  renderCatgry <- function(value, varNode)
   {
     catgryNode <-
       newXMLNode(
         "catgry",
-        parent=varNode)
-    if (catgry$valid == TRUE)
-      addAttributes(catgryNode, missing=FALSE)
-    if (catgry$valid == FALSE)
-      addAttributes(catgryNode, missing=TRUE)
-    newXMLNode("catValu", catgry$value, parent = catgryNode)
-    newXMLNode("labl",    catgry$labl,  parent = catgryNode)
-    newXMLNode("catStat", catgry$freq,  parent = catgryNode, attrs = c(type = "freq"))
+        parent = varNode)
+    addAttributes(catgryNode, missing=value["valid"])
+    newXMLNode("catValu", value["value"], parent = catgryNode)
+    newXMLNode("labl",    value["label"], parent = catgryNode)
+    newXMLNode("catStat", value["freq"],  parent = catgryNode, attrs = c(type = "freq"))
   }
 
   ##### START #####
