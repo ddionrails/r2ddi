@@ -61,7 +61,7 @@ ddiExtractor <-
     if(length(valid_tab) > 0)
       valid_freq <-
         data.frame(
-          stata_value      = names(valid_labels),
+          value            = names(valid_labels),
           freq             = valid_tab,
           valid            = TRUE,
           stringsAsFactors = FALSE)
@@ -71,7 +71,7 @@ ddiExtractor <-
     if(length(missing_tab) > 0)
       missing_freq <-
         data.frame(
-          stata_value      = names(missing_labels),
+          value            = names(missing_labels),
           freq             = missing_tab,
           valid            = FALSE,
           stringsAsFactors = FALSE)
@@ -91,13 +91,11 @@ ddiExtractor <-
       merge(
         var$value_frame,
         freq,
-        by  = "stata_value",
+        by  = "value",
         all = TRUE)
 
-    xx$valid <- ifelse( is.na(xx$valid.x), xx$valid.y,     xx$valid.x )
-    xx$freq  <- ifelse( is.na(xx$freq),    0,              xx$freq    )
-    xx$value <- ifelse( is.na(xx$value),   xx$stata_value, xx$value   )
-    # TODO: if missing value is missing, check for ".", ".a", etc.
+    xx$valid <- ifelse(is.na(xx$valid.x), xx$valid.y, xx$valid.x)
+    xx$freq  <- ifelse(is.na(xx$freq),    0,          xx$freq   )
 
     xx$valid.y <- xx$valid.x <- NULL
 

@@ -36,10 +36,11 @@ data.stata <-
                            NA,
                            valid),
       missing          = ifelse(
-                           valid %in% missing_codes & valid != NA,
+                           valid %in% missing_codes & !is.na(valid),
                            valid,
                            missing),
       stringsAsFactors = FALSE))
+
 }
 
 

@@ -17,21 +17,10 @@ varDscr.stata <-
 
   data_frame <- data.stata(var, missings, missing_codes)
 
-  # TODO: Do we handle "."-missings correctly?
-  tmp_values <-
-    ifelse(
-      val_labels >= 2147483621,
-      val_labels - 2147483621,
-      0)
-
   value_frame <-
     data.frame(
       label            = names(val_labels),
-      stata_value      = val_labels,
-      value            = ifelse(
-                           val_labels >= 2147483621,
-                           paste(".", letters[tmp_values], sep=""),
-                           val_labels),
+      value      = val_labels,
       valid            = ifelse(
                            val_labels >= 2147483621 |
                            val_labels %in% missing_codes,
@@ -62,17 +51,17 @@ varDscr.stata <-
       keep_data   = keep_data,
       file_format = "Stata")
 
-#  tmp_values <-
-#    ifelse(
-#      var_dscr$value_frame$value >= 2147483621,
-#      var_dscr$value_frame$value - 2147483621,
-#      0)
-#
-#  var_dscr$value_frame$value <-
-#    ifelse(
-#      var_dscr$value_frame$value >= 2147483621,
-#      paste(".", letters[tmp_values], sep=""),
-#      var_dscr$value_frame$value)
+  tmp_values <-
+    ifelse(
+      var_dscr$value_frame$value >= 2147483621,
+      var_dscr$value_frame$value - 2147483621,
+      0)
+
+  var_dscr$value_frame$value <-
+    ifelse(
+      var_dscr$value_frame$value >= 2147483621,
+      paste(".", letters[tmp_values], sep=""),
+      var_dscr$value_frame$value)
 
   return(var_dscr)
 }
