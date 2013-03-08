@@ -30,3 +30,4 @@ Collate:
     'attachFileDscr.R'
     'data.stata.R'
     'freq.labeled_numeric.R'
+    'freq.character.R'
