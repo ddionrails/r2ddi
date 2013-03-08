@@ -49,7 +49,8 @@ ddi2xml <- function(ddi, filename)
         parent = varNode)
     addAttributes(catgryNode, missing=value["valid"])
     newXMLNode("catValu", value["value"], parent = catgryNode)
-    newXMLNode("labl",    value["label"], parent = catgryNode)
+    if(!is.na(value["label"]))
+      newXMLNode("labl", value["label"], parent = catgryNode)
     newXMLNode("catStat", value["freq"],  parent = catgryNode, attrs = c(type = "freq"))
   }
 

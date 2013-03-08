@@ -28,9 +28,6 @@ varDscr.stata <-
                            TRUE),
       stringsAsFactors = FALSE)
 
-  # TODO:
-  #   - replace data and miss by data_frame
-  #   - replace val_labels by value_frame
   var_dscr <-
     list(
       name        = name,
@@ -50,24 +47,23 @@ varDscr.stata <-
       keep_data   = keep_data,
       file_format = "Stata")
 
-  # TODO: tmp_values don't wor, in elseif!!!
 
-#  tmp_values <-
-#    ifelse(
-#      as.numeric(var_dscr$value_table$value) >= 2147483621,
-#      as.numeric(var_dscr$value_table$value) - 2147483621,
-#      0)
-#
-#  var_dscr$value_table$value <-
-#    ifelse(
-#      var_dscr$value_table$value >= 2147483621,
-#      ifelse(
-#        var_dscr$value_table$value == 2147483621,
-#        ".",
-#        paste(".", letters[tmp_values], sep="")),
-#      var_dscr$value_table$value)
-
-  browser()
+  if(nrow(var_dscr$value_table) > 0 &
+     var_dscr$intrvl == "labeled_numeric")
+  {
+    tmp_values <-
+      as.numeric(
+        var_dscr$value_table$value[
+          as.numeric(var_dscr$value_table$value) > 2147483621 &
+          !is.na(var_dscr$value_table$value)]) - 2147483621
+    var_dscr$value_table$value[
+      as.numeric(var_dscr$value_table$value) > 2147483621 &
+      !is.na(var_dscr$value_table$value)] <-
+        paste(".", letters[tmp_values], sep="")
+    var_dscr$value_table$value[
+      suppressWarnings(as.numeric(var_dscr$value_table$value)) == 2147483621 &
+      !is.na(var_dscr$value_table$value)] <- "."
+  }
 
   return(var_dscr)
 }
