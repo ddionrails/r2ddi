@@ -31,3 +31,4 @@ Collate:
     'data.stata.R'
     'freq.labeled_numeric.R'
     'freq.character.R'
+    'dir2ddi.R'

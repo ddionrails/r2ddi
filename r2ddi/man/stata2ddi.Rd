@@ -4,7 +4,7 @@
 \usage{
   stata2ddi(filename, data_name, data_label = NULL,
     missing_codes = NULL, keep_data = TRUE,
-    multicore = FALSE)
+    multicore = FALSE, is_stata_mis = TRUE)
 }
 \arguments{
   \item{filename}{Name of a Stata file.}

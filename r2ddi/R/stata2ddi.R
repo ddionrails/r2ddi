@@ -17,7 +17,8 @@ stata2ddi <-
     data_label    = NULL,
     missing_codes = NULL,
     keep_data     = TRUE,
-    multicore     = FALSE)
+    multicore     = FALSE,
+    is_stata_mis  = TRUE)
 {
 
   # Read Stata file
@@ -26,7 +27,7 @@ stata2ddi <-
       filename,
       convert.factors = FALSE,
       convert.dates   = FALSE,
-      missing.type    = TRUE )
+      missing.type    = is_stata_mis)
 
   # TODO: still neccessary after use of lapply?  
   #       -> Neccessary for val.labels ?!
@@ -51,9 +52,7 @@ stata2ddi <-
   # Add var_dscr to data_dscr
   # TODO Move all attributes (exept for missing_codes and keep_data)
   #      to the raw data_dscr list to reduce attributes.
-  data_dscr$var_dscr <-
-    lapply(
-      seq_along(stata_file),
+  internal_function <-
       function(i)
       {
         r2ddi:::varDscr.stata(
@@ -68,7 +67,19 @@ stata2ddi <-
           missings      = attr(stata_file, "missing")[[i]],
           missing_codes = missing_codes,
           keep_data     = keep_data)
-      })
+      }
+
+  if(multicore == TRUE)
+    data_dscr$var_dscr <-
+      mclapply(
+        seq_along(stata_file),
+        internal_function)
+  else
+    data_dscr$var_dscr <-
+      lapply(
+        seq_along(stata_file),
+        internal_function)
+
   names(data_dscr$var_dscr) <- names(stata_file)
 
   ddi <-
