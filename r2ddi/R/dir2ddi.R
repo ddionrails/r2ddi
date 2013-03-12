@@ -28,16 +28,25 @@ dir2ddi <-
         pattern     = pattern,
         ignore.case = TRUE) != -1]
 
-  path_list <- paste(path, file_list, sep = "")
+  result_list <-
+    mclapply(
+      file_list,
+      function(x)
+      {
+        stata2ddi(
+          paste(path, x, sep = ""),
+          x,
+          keep_data = FALSE)
+      })
 
-  master <- stata2ddi(path_list[1], file_list[1], multicore = multicore)
+  master <- result_list[[1]]
 
-  if (length(file_list) > 1)
+  if (length(result_list) > 1)
     for(i in 2:length(file_list))
       master <-
         attachFileDscr(
           master,
-          stata2ddi(path_list[i], file_list[i], multicore = multicore))
+          result_list[[i]])
 
   return(master)
 }
