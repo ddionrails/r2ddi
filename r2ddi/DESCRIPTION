@@ -13,7 +13,7 @@ Depends:
     brew,
     tools,
     multicore,
-    RJSONIO
+    rjson
 Description: Import various data formats (like CSV, Stata,
     SPSS) and export them to DDI (currently Version 2.5)
     and DDI-related formats.
