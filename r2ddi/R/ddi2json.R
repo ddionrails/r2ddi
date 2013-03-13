@@ -3,7 +3,6 @@
 #' @param ddi DDI object (input)
 #' @param filename File (output)
 #' @export
-#' @import RJSONIO
 ddi2json <-
   function(ddi, filename)
 {

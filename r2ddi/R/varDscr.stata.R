@@ -65,5 +65,11 @@ varDscr.stata <-
       !is.na(var_dscr$value_table$value)] <- "."
   }
 
+  if(nrow(var_dscr$value_table) == 0)
+  {
+    var_dscr$value_table <- NULL
+  }
+
+
   return(var_dscr)
 }
