@@ -1,0 +1,132 @@
+{
+ "file_dscr": {
+ "stata_data": {
+ "name": "stata_data",
+"file_name": "test/test1.dta",
+"file_format": "Stata",
+"label": "Stata Test Data",
+"timeStamp": "10 Sep 2012 16:46",
+"var_dscr": {
+ "id": {
+ "name": "id",
+"label": {
+ "id": "ID" 
+},
+"val_labels": null,
+"data": [      1,      2,      3,      4,      5,      6,      7 ],
+"data_table": {
+ "valid": [      1,      2,      3,      4,      5,      6,      7 ],
+"missing": [ null, null, null, null, null, null, null ] 
+},
+"value_table": {
+ "valid":  
+},
+"miss": [ null, null, null, null, null, null, null ],
+"format": {
+ "id": "%9.0g" 
+},
+"sumStat": {
+ "Min.":      1,
+"1st Qu.":    2.5,
+"Median":      4,
+"Mean":      4,
+"3rd Qu.":    5.5,
+"Max.":      7,
+"valid": 7,
+"invalid": 0 
+},
+"intrvl": "numeric" 
+},
+"age": {
+ "name": "age",
+"label": {
+ "age": "Alter" 
+},
+"val_labels": null,
+"data": [     10,     20,     30, null,     40,     50, null ],
+"data_table": {
+ "valid": [     10,     20,     30, null,     40,     50, null ],
+"missing": [ null, null, null, 2.1475e+09, null, null, 2.1475e+09 ] 
+},
+"value_table": {
+ "valid":  
+},
+"miss": [ null, null, null, 2.1475e+09, null, null, 2.1475e+09 ],
+"format": {
+ "age": "%9.0g" 
+},
+"sumStat": {
+ "Min.":     10,
+"1st Qu.":     20,
+"Median":     30,
+"Mean":     30,
+"3rd Qu.":     40,
+"Max.":     50,
+"NA's":      2,
+"valid": 5,
+"invalid": 2 
+},
+"intrvl": "numeric" 
+},
+"sex": {
+ "name": "sex",
+"label": {
+ "sex": "Geschlecht" 
+},
+"val_labels": {
+ "Mann":      1,
+"Frau":      2,
+"KA": 2.1475e+09 
+},
+"data": [      1,      2,      1,      2, null,      2,      1 ],
+"data_table": {
+ "valid": [      1,      2,      1,      2, null,      2,      1 ],
+"missing": [ null, null, null, null, 2.1475e+09, null, null ] 
+},
+"value_table": {
+ "value": [ "1", "2", ".a" ],
+"label": [ "Mann", "Frau", "KA" ],
+"freq": [ 3, 3, 1 ],
+"valid": [ true, true, false ] 
+},
+"miss": [ null, null, null, null, 2.1475e+09, null, null ],
+"format": {
+ "sex": "%9.0g" 
+},
+"sumStat": {
+ "valid": 6,
+"invalid": 1 
+},
+"intrvl": "labeled_numeric" 
+},
+"occupation": {
+ "name": "occupation",
+"label": {
+ "occupation": "Beruf" 
+},
+"val_labels": null,
+"data": [ "Student", "Lehrer", "Hausmann", "Student", "Lehrer", "Hausfrau", "Student" ],
+"data_table": {
+ "valid": [ "Student", "Lehrer", "Hausmann", "Student", "Lehrer", "Hausfrau", "Student" ],
+"missing": [ null, null, null, null, null, null, null ] 
+},
+"value_table": {
+ "value": [ "Hausfrau", "Hausmann", "Lehrer", "Student" ],
+"label": [ "Hausfrau", "Hausmann", "Lehrer", "Student" ],
+"freq": [ 1, 1, 2, 3 ],
+"valid": [ true, true, true, true ] 
+},
+"miss": [ null, null, null, null, null, null, null ],
+"format": {
+ "occupation": "%9s" 
+},
+"sumStat": {
+ "valid": 7,
+"invalid": 0 
+},
+"intrvl": "string" 
+} 
+} 
+} 
+} 
+}

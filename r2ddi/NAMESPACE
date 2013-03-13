@@ -1,6 +1,8 @@
 S3method(print,ddi)
 export(attachFileDscr)
+export(ddi2json)
 export(ddi2xml)
 export(dir2ddi)
 export(print.ddi)
 export(stata2ddi)
+import(RJSONIO)
