@@ -39,12 +39,19 @@ freq.labeled_numeric <-
   else
     freq <- NULL
 
-  value_table <-
-    merge(
-      variable$value_table,
-      freq,
-      by  = "value",
-      all = TRUE)
+  if(is.null(freq))
+  {
+    value_table      <- variable$value_table
+    value_table$freq <- 0
+    value_table$valid.x <- value_table$valid.y <- value_table$valid
+  } else {
+    value_table <-
+      merge(
+        variable$value_table,
+        freq,
+        by  = "value",
+        all = TRUE)
+  }
 
   value_table$valid <- ifelse(is.na(value_table$valid.x), value_table$valid.y, value_table$valid.x)
   value_table$freq  <- ifelse(is.na(value_table$freq),    0,                   value_table$freq   )

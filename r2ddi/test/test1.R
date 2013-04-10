@@ -20,3 +20,5 @@ test1 <-
 ## Export ddi object to xml
 ddi2xml(test1, "tmp/test1.xml")
 
+## Export ddi object to json
+ddi2json(test1, "tmp/test1.json")
