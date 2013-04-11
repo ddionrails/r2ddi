@@ -27,7 +27,7 @@ ddi2xml <- function(ddi, filename)
           files   = filename))
       newXMLNode("labl", var_dscr$label, parent=varNode)
     lapply(seq_along(var_dscr$sumStat), renderSumStat, var_dscr$sumStat, varNode)
-    if(exists("var_dscr$value_table"))
+    if(exists("value_table", where = var_dscr))
       if(nrow(var_dscr$value_table) > 0)
         apply(var_dscr$value_table, 1, renderCatgry, varNode)
   }
