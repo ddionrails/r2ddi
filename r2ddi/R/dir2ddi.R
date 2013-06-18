@@ -28,16 +28,30 @@ dir2ddi <-
         pattern     = pattern,
         ignore.case = TRUE) != -1]
 
-  result_list <-
-    mclapply(
-      file_list,
-      function(x)
-      {
-        stata2ddi(
-          paste(path, x, sep = ""),
-          x,
-          keep_data = FALSE)
-      })
+  if(multicore)
+  {
+    result_list <-
+      mclapply(
+        file_list,
+        function(x)
+        {
+          stata2ddi(
+            paste(path, x, sep = ""),
+            x,
+            keep_data = FALSE)
+        })
+  } else {
+    result_list <-
+      lapply(
+        file_list,
+        function(x)
+        {
+          stata2ddi(
+            paste(path, x, sep = ""),
+            x,
+            keep_data = FALSE)
+        })
+  }
 
   master <- result_list[[1]]
 
