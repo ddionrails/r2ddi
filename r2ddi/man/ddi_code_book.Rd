@@ -1,9 +1,9 @@
-\name{ddi_var}
-\alias{ddi_var}
-\title{Generate varDscr}
+\name{ddi_code_book}
+\alias{ddi_code_book}
+\title{Generate a ddi code book.}
 \usage{
-  ddi_var(id, labl, intrvl = NULL, catgry = NULL,
-    sum_stat = NULL)
+  ddi_code_book(id = NULL, doc_dscr = NULL,
+    stdy_dscr = NULL, file_dscr = NULL)
 }
 \arguments{
   \item{id}{Variable name.}
@@ -17,6 +17,6 @@
   \item{sum_stat}{data.frame with summary statistics.}
 }
 \description{
-  Generate varDscr
+  Generate a ddi code book.
 }
 
