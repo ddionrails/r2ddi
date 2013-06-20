@@ -29,7 +29,7 @@ stata_import <- function(filename,
                                                       name   = filename,
                                                       labl   = data_label,
                                                       format = "Stata")
-    code_book$file_dscr[[data_name]]$data_dscr <- .data_dscr(stata_file)
+    code_book$file_dscr[[data_name]]$data_dscr <- .data_dscr(stata_file, import_options)
     code_book
   }
 
@@ -46,17 +46,17 @@ stata_import <- function(filename,
     stata_file
   }
 
-  .data_dscr <- function(stata_file) {
+  .data_dscr <- function(stata_file, import_options) {
     if(multicore == TRUE)
-      data_dscr <- mclapply(seq_along(stata_file), function(x) .parser(x, stata_file))
+      data_dscr <- mclapply(seq_along(stata_file), function(x) .parser(x, stata_file, import_options))
     else
-      data_dscr <- lapply(seq_along(stata_file), function(x) .parser(x, stata_file))
+      data_dscr <- lapply(seq_along(stata_file), function(x) .parser(x, stata_file, import_options))
     names(data_dscr) <- names(stata_file)
     data_dscr
   }
 
 
-  .parser <- function(i, stata_file) {
+  .parser <- function(i, stata_file, import_options) {
     r2ddi:::varDscr.stata(
       i             = i,
       name          = attr(stata_file, "names")[i],
@@ -67,8 +67,8 @@ stata_import <- function(filename,
                           names(stata_file)[i] ]] ]],
       var           = stata_file[[i]],
       missings      = attr(stata_file, "missing")[[i]],
-      missing_codes = missing_codes,
-      keep_data     = keep_data)
+      missing_codes = import_options$missing_codes,
+      keep_data     = import_options$keep_data)
   }
 
 
