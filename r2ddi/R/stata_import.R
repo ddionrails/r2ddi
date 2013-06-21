@@ -25,10 +25,10 @@ stata_import <- function(filename,
                            multicore     = multicore    ,
                            is_stata_mis  = is_stata_mis )
     code_book <- ddi_code_book()
-    code_book$file_dscr[[data_name]] <- ddi_file_dscr(id     = data_name,
-                                                      name   = filename,
+    code_book$file_dscr[[data_name]] <- ddi_file_dscr(id     = data_name ,
+                                                      name   = filename  ,
                                                       labl   = data_label,
-                                                      format = "Stata")
+                                                      format = "Stata"   )
     code_book$file_dscr[[data_name]]$data_dscr <- .data_dscr(stata_file, import_options)
     code_book
   }
@@ -39,6 +39,8 @@ stata_import <- function(filename,
                            convert.factors = FALSE,
                            convert.dates   = FALSE,
                            missing.type    = is_stata_mis)
+
+    # TODO: The following lines might be a performance disaster.
     names(attr(stata_file, "var.labels"))   <-
       names(attr(stata_file, "val.labels")) <-
         names(attr(stata_file, "formats"))  <-
@@ -46,29 +48,32 @@ stata_import <- function(filename,
     stata_file
   }
 
+
   .data_dscr <- function(stata_file, import_options) {
     if(multicore == TRUE)
-      data_dscr <- mclapply(seq_along(stata_file), function(x) .parser(x, stata_file, import_options))
+      data_dscr <- mclapply(seq_along(stata_file),
+                            function(x) .parser(x, stata_file, import_options))
     else
-      data_dscr <- lapply(seq_along(stata_file), function(x) .parser(x, stata_file, import_options))
+      data_dscr <- lapply(seq_along(stata_file),
+                          function(x) .parser(x, stata_file, import_options))
     names(data_dscr) <- names(stata_file)
     data_dscr
   }
 
 
   .parser <- function(i, stata_file, import_options) {
-    r2ddi:::varDscr.stata(
+    var <- ddi_var(id   = attr(stata_file, "names")[i],
+                   labl = attr(stata_file, "var.labels")[i])
+    var$format <- attr(stata_file, "formats")[i]
+    var$miss   <- attr(stata_file, "missing")[[i]]
+    r2ddi:::ddi_var_dscr_stata(
       i             = i,
-      name          = attr(stata_file, "names")[i],
-      label         = attr(stata_file, "var.labels")[i],
-      format        = attr(stata_file, "formats")[i],
+      var           = var,
+      data          = stata_file[[i]],
       val_labels    = attr(stata_file, "label.table")[[
                         attr(stata_file, "val.labels")[[
                           names(stata_file)[i] ]] ]],
-      var           = stata_file[[i]],
-      missings      = attr(stata_file, "missing")[[i]],
-      missing_codes = import_options$missing_codes,
-      keep_data     = import_options$keep_data)
+      import_options = import_options)
   }
 
 
