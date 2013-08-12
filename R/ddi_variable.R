@@ -17,7 +17,7 @@ ddi_variable <- function(id) {
 #' @S3method print ddi_variable
 #' @export
 print.ddi_variable <- function(x) {
-  cat("\nDDI Variable\n\n",
+  cat("\n\nDDI Variable\n\n",
       "Name:  ", x$id, "\n",
       "Label: ", as.character(x$label), "\n",
       sep="")
