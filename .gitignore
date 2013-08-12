@@ -1,7 +1,6 @@
 mikrozensus/
 output/*
 tmp/
-/test/
 .Rhistory
 r2ddi.Rcheck/
 *.tar.gz
