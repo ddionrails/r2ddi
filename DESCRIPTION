@@ -39,3 +39,4 @@ Collate:
     'stata_import.R'
     'ddi_file_dscr.R'
     'ddi_var_dscr_stata.R'
+    'ddi_variable.R'

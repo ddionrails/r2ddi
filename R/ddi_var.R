@@ -22,3 +22,4 @@ ddi_var <- function(id,
   class(ddi_var) <- "ddi_var"
   ddi_var
 }
+
