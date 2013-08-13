@@ -13,16 +13,16 @@ dir2ddi <- function(path, file_type = "all", multicore=TRUE) {
     file_list <- .file_list(path, pattern)
 
     if(multicore) {
-      result_list <- mclapply(file_list, .run_stata2ddi(x))
+      result_list <- mclapply(file_list, .run_stata2ddi(path, x))
     } else {
-      result_list <- lapply(file_list, .run_stata2ddi(x))
+      result_list <- lapply(file_list, .run_stata2ddi(path, x))
     }
 
     master <- .combine(result_list)
     return(master)
   }
 
-  .run_stata2ddi <- function(x) {
+  .run_stata2ddi <- function(path, x) {
     stata2ddi(paste(path, x, sep = ""),
               x,
               keep_data = FALSE)
@@ -44,6 +44,7 @@ dir2ddi <- function(path, file_type = "all", multicore=TRUE) {
           attachFileDscr(
             master,
             result_list[[i]])
+    master
   }
 
   .pattern <- function(file_type) {
