@@ -22,3 +22,19 @@ ddi_code_book <- function( id        = NULL ,
   ddi_code_book
 }
 
+#' Print ddi codebook
+#'
+#' @param x ddi_code_book object
+#' S3method print ddi_code_book
+#' @export
+print.ddi_code_book <- function(x) {
+  cat("DDI Codebook\n")
+  cat("------------\n")
+  cat("List of datasets:\n")
+  for(i in names(x$file_dscr))
+  {
+    cat("* ", i, sep="")
+    cat(" (", length(x[["file_dscr"]][[i]][["var_dscr"]]), " variables)\n", sep="")
+  }
+}
+
