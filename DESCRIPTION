@@ -36,7 +36,6 @@ Collate:
     'ddi2json.R'
     'ddi_var.R'
     'ddi_code_book.R'
-    'stata_import.R'
     'ddi_file_dscr.R'
     'ddi_var_dscr_stata.R'
     'ddi_variable.R'

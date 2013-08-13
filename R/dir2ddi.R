@@ -10,14 +10,14 @@ dir2ddi <- function(path, file_type = "all", multicore = TRUE) {
   main <- function() {
     file_list <- .file_list(path, file_type)
     if(multicore)
-      result_list <- mclapply(file_list, function(x) .run_stata2ddi(path, x))
+      result_list <- mclapply(file_list, .run_stata2ddi, path)
     else
-      result_list <- lapply(file_list, function(x) .run_stata2ddi(path, x))
+      result_list <- lapply(file_list, .run_stata2ddi, path)
     master <- .combine(result_list)
     master
   }
 
-  .run_stata2ddi <- function(path, x) {
+  .run_stata2ddi <- function(x, path) {
     stata2ddi(paste(path, x, sep = ""), x, keep_data = FALSE)
   }
 
