@@ -5,45 +5,33 @@
 #'                  for the previous three)
 #' @param multicore Use multicore functionallity
 #' @export
-dir2ddi <- function(path, file_type = "all", multicore=TRUE) {
+dir2ddi <- function(path, file_type = "all", multicore = TRUE) {
 
   main <- function() {
-    pattern <- .pattern(file_type)
-    if is.null(pattern) return()
-    file_list <- .file_list(path, pattern)
-
-    if(multicore) {
-      result_list <- mclapply(file_list, .run_stata2ddi(path, x))
-    } else {
-      result_list <- lapply(file_list, .run_stata2ddi(path, x))
-    }
-
+    file_list <- .file_list(path, file_type)
+    if(multicore)
+      result_list <- mclapply(file_list, function(x) .run_stata2ddi(path, x))
+    else
+      result_list <- lapply(file_list, function(x) .run_stata2ddi(path, x))
     master <- .combine(result_list)
-    return(master)
+    master
   }
 
   .run_stata2ddi <- function(path, x) {
-    stata2ddi(paste(path, x, sep = ""),
-              x,
-              keep_data = FALSE)
+    stata2ddi(paste(path, x, sep = ""), x, keep_data = FALSE)
   }
 
-  .file_list <- function(path, pattern) {
+  .file_list <- function(path, file_type) {
     fl <- list.files(path)
-    fl <- fl[regexpr(fl,
-                     pattern     = pattern,
-                     ignore.case = TRUE) != -1]
-    fl
+    ex <- regexpr(fl, pattern = .pattern(file_type), ignore.case = TRUE)
+    fl[ex != -1]
   }
 
   .combine <- function(result_list) {
     master <- result_list[[1]]
     if (length(result_list) > 1)
       for(i in 2:length(file_list))
-        master <-
-          attachFileDscr(
-            master,
-            result_list[[i]])
+        master <- attachFileDscr(master, result_list[[i]])
     master
   }
 
@@ -59,6 +47,6 @@ dir2ddi <- function(path, file_type = "all", multicore=TRUE) {
     pattern
   }
 
-  x <- main()
-  x
+  main()
 }
+
