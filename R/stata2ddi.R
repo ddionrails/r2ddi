@@ -31,17 +31,10 @@ stata2ddi <- function(filename,
   }
 
   .read_stata <- function(filename, is_stata_mis) {
-    stata_file <- read.dta(filename,
-                           convert.factors = FALSE,
-                           convert.dates   = FALSE,
-                           missing.type    = is_stata_mis)
-
-    # TODO: The following lines might be a performance disaster.
-    # names(attr(stata_file, "var.labels"))   <-
-    #   names(attr(stata_file, "val.labels")) <-
-    #     names(attr(stata_file, "formats"))  <-
-    #       names(attr(stata_file, "types"))  <- names(stata_file)
-    stata_file
+    read.dta(filename,
+             convert.factors = FALSE,
+             convert.dates   = FALSE,
+             missing.type    = is_stata_mis)
   }
 
   .data_dscr <- function(stata_file, import_options) {
