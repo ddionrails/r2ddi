@@ -11,11 +11,11 @@ keep_data     = TRUE
 ## Load data and create ddi object
 test3 <-
   stata2ddi(
-    filename,
-    data_name,
-    data_label,
-    missing_codes,
-    keep_data )
+    filename = filename,
+    data_name = data_name,
+    data_label = data_label,
+    missing_codes = missing_codes,
+    keep_data = keep_data )
 
 ## Export ddi object to xml
 ddi2xml(test3, "tmp/test3.xml")

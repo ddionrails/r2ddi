@@ -10,23 +10,23 @@
 #' @example examples/stata.R
 #' @export
 stata2ddi <- function(filename,
-                         data_name,
-                         data_label    = NULL ,
-                         missing_codes = NULL ,
-                         keep_data     = TRUE ,
-                         time_id       = NULL ,
-                         is_stata_mis  = TRUE )
+                      data_name,
+                      data_label    = NULL ,
+                      missing_codes = NULL ,
+                      keep_data     = TRUE ,
+                      time_id       = NULL ,
+                      is_stata_mis  = TRUE )
 {
   main <- function() {
     stata_file <- .read_stata(filename, is_stata_mis)
     import_options <- list(missing_codes = missing_codes,
                            keep_data     = keep_data    ,
+                           time_id       = time_id,
                            is_stata_mis  = is_stata_mis )
     code_book <- ddi_code_book()
     code_book$file_dscr[[data_name]] <- ddi_file_dscr(id     = data_name ,
                                                       name   = filename  ,
                                                       labl   = data_label,
-                                                      time_id = time_id,
                                                       format = "Stata"   )
     code_book$file_dscr[[data_name]]$data_dscr <- .data_dscr(stata_file, import_options)
     code_book
