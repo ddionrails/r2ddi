@@ -10,11 +10,11 @@
 # * file_format=[NA|Stata|SPSS|CSV|data.frame]: format (default=NA)
 #
 ddiExtractor <- function(var_dscr,
-                         keep_data,
+                         import_options,
                          file_format = NULL)
 {
 
-  main() {
+  main <- function() {
     if (class(var_dscr$data) == "numeric" | class(var_dscr$data) == "integer") {
       if (is.null(var_dscr$val_labels)) {
         var_dscr$sumStat <- .stat_numeric(var_dscr)
@@ -27,12 +27,13 @@ ddiExtractor <- function(var_dscr,
     } else if (class(var_dscr$data) == "character") {
       var_dscr$sumStat     <- .stat_character(var_dscr)
       var_dscr$value_table <- freq.character(var_dscr)
+      var_dscr$jstat       <- jstat.character(var_dscr, import_options$time)
       var_dscr$intrvl      <- "string"
     } else if (class(var_dscr$data) == "factor") {
       var_dscr$sumStat <- .stat_factor(var_dscr)
       var_dscr$intrvl  <- "factor"
     }
-    if (keep_data == FALSE) { 
+    if (import_options$keep_data == FALSE) { 
       var_dscr$data     <- NA
       var_dscr$missings <- NA
     }

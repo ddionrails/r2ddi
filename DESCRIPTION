@@ -35,3 +35,4 @@ Collate:
     'ddi_code_book.R'
     'ddi_file_dscr.R'
     'ddi_var_dscr_stata.R'
+    'jstat.character.R'

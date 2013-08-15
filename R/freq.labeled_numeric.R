@@ -13,7 +13,7 @@ freq.labeled_numeric <- function(variable)
     valid_freq   <- .valid_freq(valid_tab, valid_labels)
     missing_freq <- .missing_freq(missing_labels, missing_tab)
     freq         <- .freq(valid_freq, missing_freq)
-    value_table  <- .value_table(variable)
+    value_table  <- .value_table(variable, freq)
   
     value_table$valid <- ifelse(is.na(value_table$valid.x),
                                 value_table$valid.y,
@@ -37,7 +37,7 @@ freq.labeled_numeric <- function(variable)
       return(NULL)
   }
   
-  .missing_freq <- function(missing_tab, missing_labels) {
+  .missing_freq <- function(missing_labels, missing_tab) {
     if(length(missing_tab) > 0)
       missing_freq <-
         data.frame(
@@ -47,9 +47,10 @@ freq.labeled_numeric <- function(variable)
           stringsAsFactors = FALSE)
     else
       missing_freq <- NULL
+    missing_freq
   }
   
-  .freq <- function(valid_freq, missing_freq)
+  .freq <- function(valid_freq, missing_freq) {
     if(!is.null(valid_freq) & !is.null(missing_freq))
       return(rbind(valid_freq, missing_freq))
     else if(!is.null(valid_freq))
@@ -60,7 +61,7 @@ freq.labeled_numeric <- function(variable)
       return(NULL)
   }
   
-  .value_table <- function(variable) {
+  .value_table <- function(variable, freq) {
     if(is.null(freq)) {
       value_table      <- variable$value_table
       value_table$freq <- 0
