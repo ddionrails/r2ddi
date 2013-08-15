@@ -14,6 +14,7 @@ stata2ddi <- function(filename,
                          data_label    = NULL ,
                          missing_codes = NULL ,
                          keep_data     = TRUE ,
+                         time_id       = NULL ,
                          is_stata_mis  = TRUE )
 {
   main <- function() {
@@ -25,6 +26,7 @@ stata2ddi <- function(filename,
     code_book$file_dscr[[data_name]] <- ddi_file_dscr(id     = data_name ,
                                                       name   = filename  ,
                                                       labl   = data_label,
+                                                      time_id = time_id,
                                                       format = "Stata"   )
     code_book$file_dscr[[data_name]]$data_dscr <- .data_dscr(stata_file, import_options)
     code_book
@@ -38,6 +40,8 @@ stata2ddi <- function(filename,
   }
 
   .data_dscr <- function(stata_file, import_options) {
+    if (!is.null(import_options$time_id))
+      import_options$time <- stata_file[[import_options$time_id]]
     data_dscr <- lapply(seq_along(stata_file),
                         function(x) .parser(x, stata_file, import_options))
     names(data_dscr) <- names(stata_file)
