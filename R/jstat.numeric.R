@@ -5,8 +5,9 @@
 jstat.numeric <- function(variable, time=NULL)
 {
   main <- function() {
-    l <- list(densit = .density(variable$data_table$valid),
-              md5   = md5(variable$data_table$valid))
+    l <- list(long   = FALSE,    # TODO: implement time-dependend density...
+              densit = .density(variable$data_table$valid),
+              md5    = md5(variable$data_table$valid))
     l
   }
 

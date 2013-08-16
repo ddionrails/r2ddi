@@ -5,7 +5,8 @@
 jstat.labeled_numeric <- function(variable, time=NULL)
 {
   main <- function() {
-    l <- list(table = .table(variable$data_table$valid, time),
+    l <- list(long  = !is.null(time),
+              table = .table(variable$data_table$valid, time),
               md5   = md5(variable$data_table$valid))
     l
   }
