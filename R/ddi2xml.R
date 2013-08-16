@@ -29,6 +29,8 @@ ddi2xml <- function(ddi,
                           parent = codebook["dataDscr"],
                           attrs  = attrs)
     newXMLNode("labl", data_dscr$label, parent = varNode)
+    if(exists("jstat", where = data_dscr))
+      newXMLNode("jstat", toJSON(data_dscr$jstat), parent = varNode)
     lapply(seq_along(data_dscr$sumStat), .renderSumStat, data_dscr$sumStat, varNode)
     if(include_string_catgry | data_dscr$intrvl != "string")
       if(exists("value_table", where = data_dscr))

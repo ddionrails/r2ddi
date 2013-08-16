@@ -11,14 +11,14 @@ keep_data     = TRUE
 ## Load data and create ddi object
 test1 <-
   stata2ddi(
-    filename,
-    data_name,
-    data_label,
-    missing_codes,
-    keep_data )
+    filename = filename,
+    data_name = data_name,
+    data_label = data_label,
+    missing_codes = missing_codes,
+    keep_data = keep_data )
 
 ## Export ddi object to xml
 ddi2xml(test1, "tmp/test1.xml")
 
 ## Export ddi object to json
-ddi2json(test1, "tmp/test1.json")
+#ddi2json(test1, "tmp/test1.json")

@@ -9,21 +9,46 @@
 #                           -> increases size
 # * file_format=[NA|Stata|SPSS|CSV|data.frame]: format (default=NA)
 #
-ddiExtractor <-
-  function(
-    var_dscr,
-    keep_data,
-    file_format = NULL)
+ddiExtractor <- function(var_dscr,
+                         import_options,
+                         file_format = NULL)
 {
 
-  ##### INTERNAL FUNCTIONS #####
+  main <- function() {
+    if (class(var_dscr$data) == "numeric" | class(var_dscr$data) == "integer") {
+      if (is.null(var_dscr$val_labels)) {
+        var_dscr$sumStat <- .stat_numeric(var_dscr)
+        if(import_options$jstat)
+          var_dscr$jstat       <- jstat.numeric(var_dscr, import_options$time)
+        var_dscr$intrvl  <- "numeric"
+      } else {
+        var_dscr$sumStat     <- .stat_labeled_numeric(var_dscr)
+        var_dscr$value_table <- freq.labeled_numeric(var_dscr)
+        if(import_options$jstat)
+          var_dscr$jstat       <- jstat.labeled_numeric(var_dscr, import_options$time)
+        var_dscr$intrvl      <- "labeled_numeric"
+      }
+    } else if (class(var_dscr$data) == "character") {
+      var_dscr$sumStat     <- .stat_character(var_dscr)
+      var_dscr$value_table <- freq.character(var_dscr)
+      if(import_options$jstat)
+        var_dscr$jstat       <- jstat.character(var_dscr, import_options$time)
+      var_dscr$intrvl      <- "string"
+    } else if (class(var_dscr$data) == "factor") {
+      var_dscr$sumStat <- .stat_factor(var_dscr)
+      var_dscr$intrvl  <- "factor"
+    }
+    if (import_options$keep_data == FALSE) { 
+      var_dscr$data     <- NA
+      var_dscr$missings <- NA
+    }
+    var_dscr
+  }
 
-  stat_numeric <- function(var_dscr)
-  {
+  .stat_numeric <- function(var_dscr) {
     summary <- summary(var_dscr$data)
     sumStat <- list()
-    for(i in 1:length(summary))
-    {
+    for(i in 1:length(summary)) {
       sumStat[ names(summary)[i] ] <- summary[i]
     }   
     sumStat$valid <- length(var_dscr$data[!is.na(var_dscr$data)])
@@ -31,86 +56,25 @@ ddiExtractor <-
     return(sumStat)
   }
 
-  stat_labeled_numeric <- function(var_dscr)
-  {
+  .stat_labeled_numeric <- function(var_dscr) {
     sumStat <- list()
     sumStat$valid <- length(var_dscr$data[!is.na(var_dscr$data)])
     sumStat$invalid <- length(var_dscr$data[is.na(var_dscr$data)])
     return(sumStat)
   }
 
-  stat_character <- function(var_dscr)
-  {
+  .stat_character <- function(var_dscr) {
     sumStat <- list()
     sumStat$valid <- length(var_dscr$data[!is.na(var_dscr$data)])
     sumStat$invalid <- length(var_dscr$data[is.na(var_dscr$data)])
     return(sumStat)
   }
 
-  stat_factor <- function(var_dscr)
-  {
+  .stat_factor <- function(var_dscr) {
     return("stat_factor")
   }
 
-  # DEPRECATED !!!
-  catgry_labeled_numeric <- function(var_dscr)
-  {
-    catgry <- list()
-    return(catgry)
-  }
-
-  catgry_factor <- function(var_dscr)
-  {
-    return("catgry_factor")
-  }
-
-  catgry_character <- function(var_dscr)
-  {
-    t <- table(var_dscr$data)
-    catgry <- list()
-    for(i in 1:length(t))
-    {
-      cat <- list()
-      cat$value <- names(t)[i]
-      cat$valid <- TRUE
-      cat$freq <- t[[i]]
-      catgry[[i]] <- cat
-    }
-    return(catgry)
-  }
-
-  ##### START #####
-
-  if (class(var_dscr$data) == "numeric" | class(var_dscr$data) == "integer")
-  {
-    if (is.null(var_dscr$val_labels))
-    {
-      var_dscr$sumStat <- stat_numeric(var_dscr)
-      var_dscr$intrvl  <- "numeric"
-    } else {
-      var_dscr$sumStat     <- stat_labeled_numeric(var_dscr)
-#      var_dscr$catgry      <- catgry_labeled_numeric(var_dscr)
-      var_dscr$value_table <- freq.labeled_numeric(var_dscr)
-      var_dscr$intrvl      <- "labeled_numeric"
-    }
-  } else if (class(var_dscr$data) == "character") {
-    var_dscr$sumStat     <- stat_character(var_dscr)
-#    var_dscr$catgry      <- catgry_character(var_dscr)
-    var_dscr$value_table <- freq.character(var_dscr)
-    var_dscr$intrvl      <- "string"
-  } else if (class(var_dscr$data) == "factor") {
-    var_dscr$sumStat <- stat_factor(var_dscr)
-#    var_dscr$catgry  <- catgry_factor(var_dscr)
-    var_dscr$intrvl  <- "factor"
-  }
-
-  if (keep_data == FALSE)
-  { 
-    var_dscr$data     <- NA
-    var_dscr$missings <- NA
-  }
-   
-  return(var_dscr)
+  main()
 }
 
 

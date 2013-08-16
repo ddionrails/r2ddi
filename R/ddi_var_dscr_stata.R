@@ -18,8 +18,8 @@ ddi_var_dscr_stata <- function(i,
     var$data        <- var$data_table$valid
     attributes(var$data) <- NULL
     var <- ddiExtractor(var,
-                        keep_data   = import_options$keep_data,
-                        file_format = "Stata")
+                        import_options = import_options,
+                        file_format    = "Stata")
     if(nrow(var$value_table) > 0 & var$intrvl == "labeled_numeric")
       var <- .label_stata_missings(var)
     else if(nrow(var$value_table) == 0)

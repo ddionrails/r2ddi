@@ -1,6 +1,5 @@
 S3method(print,ddi_code_book)
 export(attachFileDscr)
-export(ddi2json)
 export(ddi2xml)
 export(ddi_code_book)
 export(ddi_file_dscr)

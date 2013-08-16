@@ -1,8 +1,7 @@
 #' Calculate frequencies for character objects
 #'
 #' @param variable variable-object
-freq.character <-
-  function(variable)
+freq.character <- function(variable)
 {
   valid_tab <- valid_labels <- table(variable$data_table$valid)
   attributes(valid_tab) <- NULL
