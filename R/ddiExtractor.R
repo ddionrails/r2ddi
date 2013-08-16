@@ -18,18 +18,21 @@ ddiExtractor <- function(var_dscr,
     if (class(var_dscr$data) == "numeric" | class(var_dscr$data) == "integer") {
       if (is.null(var_dscr$val_labels)) {
         var_dscr$sumStat <- .stat_numeric(var_dscr)
-        var_dscr$jstat       <- jstat.numeric(var_dscr, import_options$time)
+        if(import_options$jstat)
+          var_dscr$jstat       <- jstat.numeric(var_dscr, import_options$time)
         var_dscr$intrvl  <- "numeric"
       } else {
         var_dscr$sumStat     <- .stat_labeled_numeric(var_dscr)
         var_dscr$value_table <- freq.labeled_numeric(var_dscr)
-        var_dscr$jstat       <- jstat.labeled_numeric(var_dscr, import_options$time)
+        if(import_options$jstat)
+          var_dscr$jstat       <- jstat.labeled_numeric(var_dscr, import_options$time)
         var_dscr$intrvl      <- "labeled_numeric"
       }
     } else if (class(var_dscr$data) == "character") {
       var_dscr$sumStat     <- .stat_character(var_dscr)
       var_dscr$value_table <- freq.character(var_dscr)
-      var_dscr$jstat       <- jstat.character(var_dscr, import_options$time)
+      if(import_options$jstat)
+        var_dscr$jstat       <- jstat.character(var_dscr, import_options$time)
       var_dscr$intrvl      <- "string"
     } else if (class(var_dscr$data) == "factor") {
       var_dscr$sumStat <- .stat_factor(var_dscr)
