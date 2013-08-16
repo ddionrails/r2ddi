@@ -38,3 +38,4 @@ Collate:
     'jstat.character.R'
     'jstat.labeled_numeric.R'
     'jstat.numeric.R'
+    'md5.R'

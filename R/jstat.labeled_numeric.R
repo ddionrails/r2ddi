@@ -6,7 +6,7 @@ jstat.labeled_numeric <- function(variable, time=NULL)
 {
   main <- function() {
     l <- list(table = .table(variable$data_table$valid, time),
-              md5   = .md5(variable$data_table$valid))
+              md5   = md5(variable$data_table$valid))
     l
   }
 
@@ -20,10 +20,6 @@ jstat.labeled_numeric <- function(variable, time=NULL)
     for (i in rownames(tab))
       x[[i]] <- tab[i, ]
     x
-  }
-
-  .md5 <- function(valid) {
-    digest(paste(valid, collapse = ''), serialize = FALSE)
   }
 
   main()
