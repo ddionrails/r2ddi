@@ -36,3 +36,5 @@ Collate:
     'ddi_file_dscr.R'
     'ddi_var_dscr_stata.R'
     'jstat.character.R'
+    'jstat.labeled_numeric.R'
+    'jstat.numeric.R'

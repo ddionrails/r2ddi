@@ -18,10 +18,12 @@ ddiExtractor <- function(var_dscr,
     if (class(var_dscr$data) == "numeric" | class(var_dscr$data) == "integer") {
       if (is.null(var_dscr$val_labels)) {
         var_dscr$sumStat <- .stat_numeric(var_dscr)
+        var_dscr$jstat       <- jstat.numeric(var_dscr, import_options$time)
         var_dscr$intrvl  <- "numeric"
       } else {
         var_dscr$sumStat     <- .stat_labeled_numeric(var_dscr)
         var_dscr$value_table <- freq.labeled_numeric(var_dscr)
+        var_dscr$jstat       <- jstat.labeled_numeric(var_dscr, import_options$time)
         var_dscr$intrvl      <- "labeled_numeric"
       }
     } else if (class(var_dscr$data) == "character") {
