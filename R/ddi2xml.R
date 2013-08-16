@@ -28,7 +28,7 @@ ddi2xml <- function(ddi,
     varNode <- newXMLNode("var",
                           parent = codebook["dataDscr"],
                           attrs  = attrs)
-    newXMLNode("labl", data_dscr$label, parent = varNode)
+    newXMLNode("labl", data_dscr$labl, parent = varNode)
     if(exists("jstat", where = data_dscr))
       newXMLNode("jstat", toJSON(data_dscr$jstat), parent = varNode)
     lapply(seq_along(data_dscr$sumStat), .renderSumStat, data_dscr$sumStat, varNode)
@@ -49,8 +49,8 @@ ddi2xml <- function(ddi,
     catgryNode <- newXMLNode("catgry", parent = varNode)
     addAttributes(catgryNode, missing = value["valid"])
     newXMLNode("catValu", value["value"], parent = catgryNode)
-    if(!is.na(value["label"]))
-      newXMLNode("labl", value["label"], parent = catgryNode)
+    if(!is.na(value["labl"]))
+      newXMLNode("labl", value["labl"], parent = catgryNode)
     newXMLNode("catStat", value["freq"], parent = catgryNode, attrs = c(type = "freq"))
   }
 
