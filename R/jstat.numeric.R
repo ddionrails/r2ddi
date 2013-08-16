@@ -11,7 +11,7 @@ jstat.numeric <- function(variable, time=NULL)
   }
 
   .density <- function(valid) {
-    d <- density(valid, n = 50)
+    d <- density(valid, n = 50, na.rm = TRUE)
     d$call <- NULL
     d$x <- round(d$x, 4)
     d$y <- round(d$y, 4)
