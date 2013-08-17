@@ -13,7 +13,7 @@ stata2ddi <- function(filename,
                       data_name,
                       data_label    = NULL ,
                       missing_codes = NULL ,
-                      keep_data     = TRUE ,
+                      keep_data     = FALSE,
                       time_id       = NULL ,
                       jstat         = FALSE,
                       is_stata_mis  = TRUE )
