@@ -34,7 +34,7 @@ print.ddi_code_book <- function(x) {
   for(i in names(x$file_dscr))
   {
     cat("* ", i, sep="")
-    cat(" (", length(x[["file_dscr"]][[i]][["var_dscr"]]), " variables)\n", sep="")
+    cat(" (", length(x[["file_dscr"]][[i]][["data_dscr"]]), " variables)\n", sep="")
   }
 }
 
