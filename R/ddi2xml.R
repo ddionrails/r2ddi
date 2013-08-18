@@ -30,12 +30,22 @@ ddi2xml <- function(ddi,
                           attrs  = attrs)
     newXMLNode("labl", data_dscr$labl, parent = varNode)
     if(exists("jstat", where = data_dscr))
-      newXMLNode("jstat", toJSON(data_dscr$jstat), parent = varNode)
+      lapply(names(data_dscr$jstat), function(x) {
+        .renderJstat(x, data_dscr$jstat[[x]], varNode)
+      })
     lapply(seq_along(data_dscr$sumStat), .renderSumStat, data_dscr$sumStat, varNode)
     if(include_string_catgry | data_dscr$intrvl != "string")
       if(exists("value_table", where = data_dscr))
         if(nrow(data_dscr$value_table) > 0)
           apply(data_dscr$value_table, 1, .renderCatgry, varNode)
+  }
+
+  .renderJstat <- function(name, content, parent_node) {
+    jstatNode <- newXMLNode(
+      "jstat",
+      toJSON(content),
+      parent = parent_node,
+      attrs  = c(name = name))
   }
 
   .renderSumStat <- function(i, sumStats, varNode) {
