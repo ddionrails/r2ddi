@@ -13,10 +13,8 @@ ddi_var_dscr_stata <- function(i,
   {
     var$val_labels  <- val_labels
     var$data_table  <- data.stata(data, var$miss, import_options$missing_codes)
-    var$miss        <- var$data_table$missing
+    var$miss        <- NULL
     var$value_table <- .create_value_table(val_labels, import_options)
-    var$data        <- var$data_table$valid
-    attributes(var$data) <- NULL
     var <- ddiExtractor(var,
                         import_options = import_options,
                         file_format    = "Stata")
