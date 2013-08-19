@@ -15,7 +15,8 @@ ddiExtractor <- function(var_dscr,
 {
 
   main <- function() {
-    if (class(var_dscr$data_table$valid) == "numeric" | class(var_dscr$data_table$valid) == "integer") {
+    if ( class(var_dscr$data_table$valid) == "numeric" |
+         class(var_dscr$data_table$valid) == "integer" ) {
       if (is.null(var_dscr$val_labels)) {
         var_dscr$sumStat <- .stat_numeric(var_dscr)
         if(import_options$jstat)
@@ -37,6 +38,8 @@ ddiExtractor <- function(var_dscr,
     } else if (class(var_dscr$data_table$valid) == "factor") {
       var_dscr$sumStat <- .stat_factor(var_dscr)
       var_dscr$intrvl  <- "factor"
+    } else {
+      var_dscr$intrvl <- "unknown"
     }
     if (import_options$keep_data == FALSE) { 
       var_dscr$data_table     <- NULL
