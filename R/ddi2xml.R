@@ -57,7 +57,7 @@ ddi2xml <- function(ddi,
 
   .renderCatgry <- function(value, varNode) {
     catgryNode <- newXMLNode("catgry", parent = varNode)
-    addAttributes(catgryNode, missing = value["valid"])
+    addAttributes(catgryNode, missing = (value["valid"] == FALSE))
     newXMLNode("catValu", value["value"], parent = catgryNode)
     if(!is.na(value["label"]))
       newXMLNode("labl", value["label"], parent = catgryNode)
