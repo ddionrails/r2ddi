@@ -5,19 +5,23 @@
 #'                  for the previous three)
 #' @param multicore Use multicore functionallity
 #' @export
-dir2xml <- function(path_in, path_out, file_type = "all", multicore = TRUE) {
+dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, missing_codes = NULL) {
 
   main <- function() {
     file_list <- .file_list(path_in, file_type)
     if(multicore)
-      result_list <- mclapply(file_list, .process, path_in, path_out)
+      result_list <- mclapply(file_list, .process, path_in, path_out, missing_codes)
     else
-      result_list <- lapply(file_list, .process, path_in, path_out)
+      result_list <- lapply(file_list, .process, path_in, path_out, missing_codes)
     result_list
   }
 
-  .process <- function(x, path_in, path_out) {
-    ddi <- stata2ddi(paste(path_in, x, sep = ""), x, keep_data = FALSE)
+  .process <- function(x, path_in, path_out, missing_codes) {
+    ddi <- stata2ddi(
+      paste(path_in, x, sep = ""),
+      x,
+      keep_data = FALSE,
+      missing_codes = missing_codes)
     ddi2xml(ddi, paste(path_out, x, ".xml", sep=""))
     x
   }
