@@ -7,3 +7,5 @@ export(ddi_var)
 export(dir2ddi)
 export(print.ddi_code_book)
 export(stata2ddi)
+export(dir2xml)
+
