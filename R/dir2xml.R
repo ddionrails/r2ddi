@@ -10,7 +10,7 @@ dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, miss
   main <- function() {
     file_list <- .file_list(path_in, file_type)
     if(multicore)
-      result_list <- mclapply(file_list, .process, path_in, path_out, missing_codes)
+      result_list <- mclapply(file_list, .process, path_in, path_out, missing_codes, mc.preschedule=FALSE)
     else
       result_list <- lapply(file_list, .process, path_in, path_out, missing_codes)
     result_list
