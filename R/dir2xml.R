@@ -19,11 +19,15 @@ dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, miss
   .process <- function(x, path_in, path_out, missing_codes) {
     ddi <- stata2ddi(
       paste(path_in, x, sep = ""),
-      x,
+      .filename_without_extension(x),
       keep_data = FALSE,
       missing_codes = missing_codes)
     ddi2xml(ddi, paste(path_out, x, ".xml", sep=""))
     x
+  }
+
+  .filename_without_extension <- function(x) {
+    gsub("(.*)[.][a-z0-1]*", "\\1", x, ignore.case=T)
   }
 
   .file_list <- function(path_in, file_type) {
