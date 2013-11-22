@@ -32,9 +32,14 @@ ddi_var_dscr_stata <- function(i,
     tmp_condition <- val_labels >= 2147483621 |
                      val_labels %in% import_options$missing_codes
     valid <- ifelse(tmp_condition, FALSE, TRUE)
-    value_table <- data.frame(label = names(val_labels),
-                              value = val_labels       ,
-                              valid = valid            ,
+    label <- names(val_labels)
+    value <- val_labels
+    if(is.null(value)) return(NULL)
+    names(value) <- seq(length(value))
+    names(valid) <- seq(length(valid))
+    value_table <- data.frame(label = label ,
+                              value = value ,
+                              valid = valid ,
                               stringsAsFactors = FALSE )
     value_table
   }

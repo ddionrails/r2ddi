@@ -22,7 +22,7 @@ dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, miss
       .filename_without_extension(x),
       keep_data = FALSE,
       missing_codes = missing_codes)
-    ddi2xml(ddi, paste(path_out, x, ".xml", sep=""))
+    ddi2xml(ddi, paste(path_out, .filename_without_extension(x), ".xml", sep=""))
     x
   }
 
