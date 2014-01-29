@@ -5,12 +5,13 @@
 #'                  for the previous three)
 #' @param multicore Use multicore functionallity
 #' @export
-dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, missing_codes = NULL) {
+dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, missing_codes = NULL, my_cores = 1) {
+
 
   main <- function() {
     file_list <- .file_list(path_in, file_type)
     if(multicore)
-      result_list <- mclapply(file_list, .process, path_in, path_out, missing_codes, mc.preschedule=FALSE)
+      result_list <- mclapply(file_list, .process, path_in, path_out, missing_codes, mc.preschedule=FALSE, mc.cores = my_cores)
     else
       result_list <- lapply(file_list, .process, path_in, path_out, missing_codes)
     result_list
