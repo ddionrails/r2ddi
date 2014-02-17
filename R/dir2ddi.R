@@ -18,7 +18,7 @@ dir2ddi <- function(path, file_type = "all", multicore = TRUE) {
   }
 
   .run_stata2ddi <- function(x, path) {
-    stata2ddi(paste(path, x, sep = ""), x, keep_data = FALSE)
+    stata2ddi(file.path(path, x), x, keep_data = FALSE)
   }
 
   .file_list <- function(path, file_type) {
