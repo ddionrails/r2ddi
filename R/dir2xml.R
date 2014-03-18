@@ -19,11 +19,13 @@ dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, miss
 
   .process <- function(x, path_in, path_out, missing_codes) {
     ddi <- stata2ddi(
-      paste(path_in, x, sep = ""),
+      file.path(path_in, x),
       .filename_without_extension(x),
       keep_data = FALSE,
       missing_codes = missing_codes)
-    ddi2xml(ddi, paste(path_out, .filename_without_extension(x), ".xml", sep=""))
+    ddi2xml(ddi, file.path(
+      path_out, paste(.filename_without_extension(x), ".xml", sep="")
+    ))
     x
   }
 
