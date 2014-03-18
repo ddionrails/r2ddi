@@ -1,12 +1,10 @@
-r2ddi - Readme
-==============
+r2ddi
+=====
 
-r2ddi is a experimental DDI-tool writen in R.
-
-It is supposed to produce DDI 2.5 compliant XML from datasets in CSV,
+r2ddi is supposed to produce DDI 2.5 compliant XML from datasets in CSV,
 Stata and SPSS format.
 
-Currently, only the import for Stata is fully implemented
+Currently, only the import for Stata is fully implemented.
 
 Simple to use
 -------------
