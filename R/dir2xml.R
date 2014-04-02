@@ -9,12 +9,17 @@ dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, miss
 
 
   main <- function() {
+  # check if path_out exists, ddi2xml will fail otherwise
+  if(!file_test("-d",path_out)) {
+    message(paste0(path_out," is not a valid directory. Create the directory or check your file permissions."))
+  } else {
     file_list <- .file_list(path_in, file_type)
     if(multicore)
       result_list <- mclapply(file_list, .process, path_in, path_out, missing_codes, mc.preschedule=FALSE, mc.cores = my_cores)
     else
       result_list <- lapply(file_list, .process, path_in, path_out, missing_codes)
     result_list
+    }
   }
 
   .process <- function(x, path_in, path_out, missing_codes) {
