@@ -2,9 +2,8 @@
 \alias{stata2ddi}
 \title{stata to ddi}
 \usage{
-  stata2ddi(filename, data_name, data_label = NULL,
-    missing_codes = NULL, keep_data = TRUE,
-    multicore = FALSE, is_stata_mis = TRUE)
+stata2ddi(filename, data_name, data_label = NULL, missing_codes = NULL,
+  keep_data = FALSE, time_id = NULL, jstat = FALSE, is_stata_mis = TRUE)
 }
 \arguments{
   \item{filename}{Name of a Stata file.}
@@ -18,12 +17,9 @@
 
   \item{keep_data}{Defines, if the original data should be
   included in the ddi object.}
-
-  \item{multicore,}{Defines, if you want r2ddi to use R's
-  multicore functionallity.}
 }
 \description{
-  Imports a Stata file and transforms it to a ddi object.
+Imports a Stata file and transforms it to a ddi object.
 }
 \examples{
 

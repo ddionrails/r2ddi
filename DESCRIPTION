@@ -20,23 +20,3 @@ Description: Import various data formats (like CSV, Stata,
 License: GPL
 URL: https://github.com/mhebing/r2ddi
 BugReport: https://github.com/mhebing/r2ddi/issues
-Collate:
-    'createDatasetsTemplate.R'
-    'ddi2xml.R'
-    'ddiExtractor.R'
-    'missings.stata.R'
-    'stata2ddi.R'
-    'attachFileDscr.R'
-    'data.stata.R'
-    'freq.labeled_numeric.R'
-    'freq.character.R'
-    'dir2ddi.R'
-    'ddi_var.R'
-    'ddi_code_book.R'
-    'ddi_file_dscr.R'
-    'ddi_var_dscr_stata.R'
-    'jstat.character.R'
-    'jstat.labeled_numeric.R'
-    'jstat.numeric.R'
-    'md5.R'
-    'dir2xml.R'

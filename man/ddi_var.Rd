@@ -2,8 +2,7 @@
 \alias{ddi_var}
 \title{Generate varDscr}
 \usage{
-  ddi_var(id, labl, intrvl = NULL, catgry = NULL,
-    sum_stat = NULL)
+ddi_var(id, labl, intrvl = NULL, catgry = NULL, sum_stat = NULL)
 }
 \arguments{
   \item{id}{Variable name.}
@@ -17,6 +16,6 @@
   \item{sum_stat}{data.frame with summary statistics.}
 }
 \description{
-  Generate varDscr
+Generate varDscr
 }
 

@@ -2,9 +2,9 @@
 \alias{missings.stata}
 \title{Missings in Stata}
 \usage{
-  missings.stata(data, missings, missing_codes = NULL)
+missings.stata(data, missings, missing_codes = NULL)
 }
 \description{
-  Missings in Stata
+Missings in Stata
 }
 
