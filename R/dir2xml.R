@@ -1,11 +1,15 @@
 #' Import multiple files from one directory
 #'
-#' @param path_in Path to files
-#' @param file_type Accepted filetypes ("dta", "sav", "csv", or "all" for the
-#'                  for the previous three)
+#' @param path_in Path with Stata files (input).
+#' @param path_out Path for XML files (output).
+#' @param file_type Currently, only "dta" for Stata files is supported.
 #' @param multicore Use multicore functionallity
+#' @param missing_codes Define vector with study-wide missing codes,
+#'        e.g. -9:-1 for the SOEP.
+#' @param my_cores Set number of cores for multi-core processing,
+#'        default is 2 cores.
 #' @export
-dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, missing_codes = NULL, my_cores = 1) {
+dir2xml <- function(path_in, path_out, file_type = "dta", multicore = TRUE, missing_codes = NULL, my_cores = 2) {
 
 
   main <- function() {
