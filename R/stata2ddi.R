@@ -7,6 +7,9 @@
 #' @param data_label Label of the dataset.
 #' @param missing_codes Array of values, that should be treated as missing values.
 #' @param keep_data Defines, if the original data should be included in the ddi object.
+#' @param time_id      ???Variable or grouping?? Should be grp_id
+#' @param jstat        ???Export in Json?
+#' @param is_stata_mis ???Asking read.dta to store information about missing types
 #' @example examples/stata.R
 #' @export
 stata2ddi <- function(filename,
@@ -55,13 +58,14 @@ stata2ddi <- function(filename,
                    labl = attr(stata_file, "var.labels")[i])
     var$format <- attr(stata_file, "formats")[i]
     var$miss   <- attr(stata_file, "missing")[[i]]
-    r2ddi:::ddi_var_dscr_stata(
+    ddi_var_dscr <- r2ddi:::ddi_var_dscr_stata(
       i             = i,
       var           = var,
       data          = stata_file[[i]],
       val_labels    = attr(stata_file, "label.table")[[
                         attr(stata_file, "val.labels")[i] ]],
       import_options = import_options)
+    return(ddi_var_dscr)
   }
 
   main()

@@ -63,5 +63,23 @@ ddi_var_dscr_stata <- function(i,
   }
 
   var <- main()
+  if (!is.null(import_options$time_id)) {
+                                  # import_options$time should hold the
+                                  # grouping variable
+      ## recursive calling of ddi_var_dscr_stata for each group
+      grp_levls <- sort(unique(import_options$time))
+      var_dsrc_bygrp <- vector(mode="list", length=length(grp_levls))
+      names(var_dsrc_bygrp) <- grp_levls
+      import_options$time_id <- NULL
+      for (j in seq(along.with = grp_levls)) {
+          var_dsrc_bygrp[[i]] <- r2ddi:::ddi_var_dscr_stata(
+              i             = i,
+              var           = var,
+              data          = data[import_options$time == grp_levls[j]],
+              val_labels    = val_labels,
+              import_options = import_options)
+      }
+      var$bygrp <- var_dsrc_bygrp
+  }
   var
 }
