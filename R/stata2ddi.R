@@ -52,7 +52,7 @@ stata2ddi <- function(filename,
 
   .parser <- function(i, stata_file, import_options) {
     var <- ddi_var(id   = attr(stata_file, "names")[i],
-                   labl = attr(stata_file, "var.labels")[i])
+                   labl = iconv(attr(stata_file, "var.labels")[i], from="", to="UTF-8"))
     var$format <- attr(stata_file, "formats")[i]
     var$miss   <- attr(stata_file, "missing")[[i]]
     r2ddi:::ddi_var_dscr_stata(
@@ -67,3 +67,4 @@ stata2ddi <- function(filename,
   main()
 }
 
+iconv(label1
