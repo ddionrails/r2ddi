@@ -66,5 +66,3 @@ stata2ddi <- function(filename,
 
   main()
 }
-
-iconv(label1
