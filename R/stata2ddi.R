@@ -60,7 +60,7 @@ stata2ddi <- function(filename,
       var           = var,
       data          = stata_file[[i]],
       val_labels    = attr(stata_file, "label.table")[[
-                        attr(stata_file, "val.labels")[i] ]],
+        iconv(attr(stata_file, "val.labels")[i], from="", to="UTF-8") ]],
       import_options = import_options)
   }
 
