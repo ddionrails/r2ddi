@@ -35,10 +35,13 @@ stata2ddi <- function(filename,
   }
 
   .read_stata <- function(filename, is_stata_mis) {
-    read.dta(filename,
+    read_dta <- read.dta(filename,
              convert.factors = FALSE,
              convert.dates   = FALSE,
              missing.type    = is_stata_mis)
+    attr(read_dta, "var.labels") <- iconv(attr(read_dta, "var.labels"),
+                                          from="", to="UTF-8")
+    read_dta
   }
 
   .data_dscr <- function(stata_file, import_options) {
@@ -52,15 +55,15 @@ stata2ddi <- function(filename,
 
   .parser <- function(i, stata_file, import_options) {
     var <- ddi_var(id   = attr(stata_file, "names")[i],
-                   labl = iconv(attr(stata_file, "var.labels")[i], from="", to="UTF-8"))
+                   labl = attr(stata_file, "var.labels")[i])
     var$format <- attr(stata_file, "formats")[i]
     var$miss   <- attr(stata_file, "missing")[[i]]
     r2ddi:::ddi_var_dscr_stata(
       i             = i,
       var           = var,
       data          = stata_file[[i]],
-      val_labels    = iconv(attr(stata_file, "label.table")[[
-        attr(stata_file, "val.labels")[i] ]], from="", to="UTF-8"),
+      val_labels    = attr(stata_file, "label.table")[[
+                             attr(stata_file, "val.labels")[i] ]],
       import_options = import_options)
   }
 
