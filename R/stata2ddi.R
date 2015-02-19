@@ -34,11 +34,23 @@ stata2ddi <- function(filename,
     code_book
   }
 
+  .encconv <- function(x) {
+    iconv(x, from="", to="UTF-8")
+  }
+  
   .read_stata <- function(filename, is_stata_mis) {
-    read.dta(filename,
+    read_dta <- read.dta(filename,
              convert.factors = FALSE,
              convert.dates   = FALSE,
              missing.type    = is_stata_mis)
+    attr(read_dta, "var.labels") <- .encconv(attr(read_dta, "var.labels"))
+    val.labels <- attr(read_dta, "val.labels")
+    val.labels <- unique(val.labels[val.labels != ""]) 
+    for(x in val.labels){
+      names(attr(read_dta, "label.table")[[x]]) <- 
+        .encconv(names(attr(read_dta, "label.table")[[x]]))
+    }
+    read_dta
   }
 
   .data_dscr <- function(stata_file, import_options) {
@@ -60,10 +72,9 @@ stata2ddi <- function(filename,
       var           = var,
       data          = stata_file[[i]],
       val_labels    = attr(stata_file, "label.table")[[
-                        attr(stata_file, "val.labels")[i] ]],
+                             attr(stata_file, "val.labels")[i] ]],
       import_options = import_options)
   }
 
   main()
 }
-
