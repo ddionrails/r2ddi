@@ -1,6 +1,8 @@
 r2ddi
 =====
 
+[![Join the chat at https://gitter.im/ddionrails/r2ddi](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ddionrails/r2ddi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 r2ddi is supposed to produce DDI 2.5 compliant XML from datasets in CSV,
 Stata and SPSS format.
 
