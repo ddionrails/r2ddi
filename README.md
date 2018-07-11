@@ -6,6 +6,12 @@ Stata and SPSS format.
 
 Currently, only the import for Stata is fully implemented.
 
+Install
+-------
+
+    library(devtools)
+    devtools::install_github("ddionrails/r2ddi")
+
 Simple to use
 -------------
 
