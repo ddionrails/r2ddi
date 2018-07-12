@@ -6,6 +6,15 @@ Stata and SPSS format.
 
 Currently, only the import for Stata is fully implemented.
 
+Install
+-------
+
+To install start R on command line:
+
+    $ /usr/bin/R 
+    > library(devtools)
+    > devtools::install_github("ddionrails/r2ddi")
+
 Simple to use
 -------------
 
